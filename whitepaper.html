@@ -1,0 +1,3633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FEF15 Coin — Whitepaper v2.0</title>
+  <link rel="icon" type="image/svg+xml" href="img/fef15_logo_mark_white_gold_transparent.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050608;
+      --bg1: #080c14;
+      --surface: rgba(255, 255, 255, 0.04);
+      --surface2: rgba(255, 255, 255, 0.07);
+      --hairline: rgba(255, 255, 255, 0.08);
+      --hairline2: rgba(255, 255, 255, 0.14);
+      --text: #ecedf1;
+      --muted: #b8bec9;
+      --dim: #8a919e;
+      --gold: #F59E0B;
+      --gold-dim: rgba(245, 158, 11, 0.15);
+      --cyan: #10cce8;
+      --cyan-dim: rgba(16, 204, 232, 0.12);
+      --blue: #6e91ff;
+      --blue-dim: rgba(110, 145, 255, 0.12);
+      --emerald: #8ee0c6;
+      --purple: #b890ff;
+      --purple-dim: rgba(184, 144, 255, 0.12);
+      --red: #f87171;
+      --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      --sans: 'Space Grotesk', system-ui, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── ambient ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 50% at 10% 5%, rgba(16, 204, 232, 0.06), transparent 60%),
+        radial-gradient(ellipse 70% 45% at 90% 95%, rgba(184, 144, 255, 0.07), transparent 60%),
+        radial-gradient(ellipse 60% 40% at 50% 50%, rgba(245, 158, 11, 0.03), transparent 60%);
+    }
+
+    /* ── scrollbar ── */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #020B18;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(245, 158, 11, 0.3);
+      border-radius: 2px;
+    }
+
+    /* ─────────────────────────────────────────
+   COVER
+───────────────────────────────────────── */
+    .cover {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 40px 80px;
+      border-bottom: 1px solid var(--hairline);
+      overflow: hidden;
+    }
+
+    .cover-bg-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .cover-bg-ring:nth-child(1) {
+      width: 700px;
+      height: 700px;
+      border-color: rgba(16, 204, 232, 0.06);
+    }
+
+    .cover-bg-ring:nth-child(2) {
+      width: 900px;
+      height: 900px;
+      border-color: rgba(245, 158, 11, 0.04);
+    }
+
+    .cover-bg-ring:nth-child(3) {
+      width: 1100px;
+      height: 1100px;
+      border-color: rgba(184, 144, 255, 0.03);
+    }
+
+    .cover-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 204, 232, 0.09), rgba(110, 145, 255, 0.06) 40%, transparent 70%);
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -55%);
+      filter: blur(30px);
+      pointer-events: none;
+    }
+
+    .cover-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .cover-emblem {
+      width: 110px;
+      height: 110px;
+      display: block;
+      margin: 0 auto 36px;
+    }
+
+    .cover-eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--cyan);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cover-eyebrow::before,
+    .cover-eyebrow::after {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: var(--cyan);
+      opacity: 0.5;
+    }
+
+    .cover-title {
+      font-size: clamp(60px, 10vw, 110px);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.045em;
+      margin-bottom: 24px;
+    }
+
+    .cover-title .g1 {
+      background: linear-gradient(135deg, #fff 0%, var(--cyan) 60%, var(--blue) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .cover-sub {
+      font-size: 19px;
+      color: var(--muted);
+      max-width: 56ch;
+      margin: 0 auto 52px;
+      letter-spacing: -0.005em;
+      line-height: 1.55;
+    }
+
+    .cover-meta {
+      display: inline-flex;
+      gap: 0;
+      border: 1px solid var(--hairline2);
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(14px);
+    }
+
+    .cover-cell {
+      padding: 20px 28px;
+      text-align: left;
+      border-right: 1px solid var(--hairline);
+    }
+
+    .cover-cell:last-child {
+      border-right: none;
+    }
+
+    .cover-cell .ck {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .cover-cell .cv {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      margin-top: 5px;
+    }
+
+    .cover-cell .cv.gold {
+      color: var(--gold);
+    }
+
+    .cover-cell .cv.cyan {
+      color: var(--cyan);
+    }
+
+    .cover-disclaimer {
+      margin-top: 52px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.06em;
+      max-width: 900px;
+      width: 100%;
+      line-height: 1.8;
+    }
+
+    /* ─────────────────────────────────────────
+   NAV (sticky side rail on desktop)
+───────────────────────────────────────── */
+    .sidenav {
+      position: fixed;
+      left: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+    }
+
+    .sidenav a {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color .2s;
+      white-space: nowrap;
+    }
+
+    .sidenav a .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      flex-shrink: 0;
+      transition: all .25s;
+    }
+
+    .sidenav a .lbl {
+      opacity: 0;
+      transition: opacity .2s;
+    }
+
+    .sidenav a:hover {
+      color: #fff;
+    }
+
+    .sidenav a:hover .dot {
+      background: #fff;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    }
+
+    .sidenav a:hover .lbl {
+      opacity: 1;
+    }
+
+    .sidenav a.active .dot {
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+      transform: scale(1.4);
+    }
+
+    .sidenav a.active {
+      color: var(--cyan);
+    }
+
+    .sidenav a.active .lbl {
+      opacity: 1;
+    }
+
+    /* ─────────────────────────────────────────
+   PAGE / TOC
+───────────────────────────────────────── */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 940px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .toc {
+      padding: 80px 40px;
+      border-bottom: 1px solid var(--hairline);
+      max-width: 940px;
+      margin: 0 auto;
+    }
+
+    .toc-eyebrow {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 24px;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .toc-list li {
+      border-top: 1px solid var(--hairline);
+    }
+
+    .toc-list li a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 4px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color .2s, padding-left .2s;
+    }
+
+    .toc-list li a:hover {
+      color: #fff;
+      padding-left: 8px;
+    }
+
+    .toc-list li a .num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--dim);
+    }
+
+    /* ─────────────────────────────────────────
+   SECTIONS
+───────────────────────────────────────── */
+    section {
+      padding: 90px 0;
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    section:last-child {
+      border-bottom: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 18px;
+      height: 1px;
+      background: var(--muted);
+    }
+
+    .eyebrow.cyan {
+      color: var(--cyan);
+    }
+
+    .eyebrow.cyan::before {
+      background: var(--cyan);
+    }
+
+    .eyebrow.gold {
+      color: var(--gold);
+    }
+
+    .eyebrow.gold::before {
+      background: var(--gold);
+    }
+
+    .eyebrow.purple {
+      color: var(--purple);
+    }
+
+    .eyebrow.purple::before {
+      background: var(--purple);
+    }
+
+    h2.section-title {
+      font-size: clamp(30px, 4.2vw, 50px);
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+      margin-bottom: 28px;
+      color: #fff;
+      max-width: 24ch;
+    }
+
+    h2.section-title .dim {
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    p {
+      color: var(--muted);
+      margin-bottom: 18px;
+      letter-spacing: -0.005em;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    strong {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* ─────────────────────────────────────────
+   INTRO EXPLAINER BOX (plain-language)
+───────────────────────────────────────── */
+    .explainer {
+      background: linear-gradient(135deg, rgba(16, 204, 232, 0.06), rgba(110, 145, 255, 0.06));
+      border: 1px solid rgba(16, 204, 232, 0.2);
+      border-radius: 20px;
+      padding: 36px 40px;
+      margin: 36px 0;
+    }
+
+    .explainer .el {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 14px;
+    }
+
+    .explainer p {
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* ─────────────────────────────────────────
+   CALLOUT
+───────────────────────────────────────── */
+    .callout {
+      background: linear-gradient(135deg, var(--gold-dim), rgba(110, 145, 255, 0.07));
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin: 32px 0;
+    }
+
+    .callout .label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 10px;
+    }
+
+    .callout p {
+      color: var(--text);
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ─────────────────────────────────────────
+   METRICS
+───────────────────────────────────────── */
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 32px 0;
+    }
+
+    .metric {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 16px;
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s;
+    }
+
+    .metric:hover {
+      border-color: var(--hairline2);
+      box-shadow: 0 12px 40px -20px rgba(16, 204, 232, 0.15);
+    }
+
+    .metric::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 80% 20%, rgba(16, 204, 232, 0.06), transparent 60%);
+      pointer-events: none;
+    }
+
+    .metric .mk {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .metric .mv {
+      font-size: 30px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 7px;
+      letter-spacing: -0.03em;
+    }
+
+    .metric .mv.up {
+      color: var(--emerald);
+    }
+
+    .metric .mv.gold {
+      color: var(--gold);
+    }
+
+    .metric .mv.cyan {
+      color: var(--cyan);
+    }
+
+    .metric .ms {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+
+    /* ─────────────────────────────────────────
+   3-LAYER DIAGRAM
+───────────────────────────────────────── */
+    .layer-diagram {
+      margin: 44px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .layer {
+      border-radius: 16px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid;
+    }
+
+    .layer-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      flex-shrink: 0;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      opacity: 0.7;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+    }
+
+    .layer-content {
+      flex: 1;
+    }
+
+    .layer-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 6px;
+      letter-spacing: -0.015em;
+    }
+
+    .layer-desc {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .layer-count {
+      font-family: var(--mono);
+      font-size: 36px;
+      font-weight: 700;
+      flex-shrink: 0;
+      min-width: 56px;
+      text-align: center;
+      letter-spacing: -0.03em;
+    }
+
+    .layer-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .layer-chip {
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 3px 9px;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+    }
+
+    .layer.layer-private {
+      background: linear-gradient(135deg, rgba(16, 204, 232, 0.07), rgba(110, 145, 255, 0.05));
+      border-color: rgba(16, 204, 232, 0.25);
+    }
+
+    .layer.layer-private .layer-label {
+      color: var(--cyan);
+    }
+
+    .layer.layer-private .layer-count {
+      color: var(--cyan);
+    }
+
+    .layer.layer-private .layer-chip {
+      background: var(--cyan-dim);
+      color: var(--cyan);
+    }
+
+    .layer.layer-crypto {
+      background: linear-gradient(135deg, rgba(110, 145, 255, 0.07), rgba(142, 224, 198, 0.05));
+      border-color: rgba(110, 145, 255, 0.22);
+    }
+
+    .layer.layer-crypto .layer-label {
+      color: var(--blue);
+    }
+
+    .layer.layer-crypto .layer-count {
+      color: var(--blue);
+    }
+
+    .layer.layer-crypto .layer-chip {
+      background: var(--blue-dim);
+      color: var(--blue);
+    }
+
+    .layer.layer-hidden {
+      background: linear-gradient(135deg, rgba(184, 144, 255, 0.10), rgba(80, 50, 140, 0.08));
+      border-color: rgba(184, 144, 255, 0.30);
+      border-style: dashed;
+    }
+
+    .layer.layer-hidden .layer-label {
+      color: var(--purple);
+    }
+
+    .layer.layer-hidden .layer-count {
+      color: var(--purple);
+    }
+
+    .layer.layer-hidden .layer-chip {
+      background: var(--purple-dim);
+      color: var(--purple);
+    }
+
+    /* ─────────────────────────────────────────
+   STEPS / HOW IT WORKS
+───────────────────────────────────────── */
+    .steps {
+      margin: 36px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 22px;
+      padding: 26px 0;
+      border-bottom: 1px solid var(--hairline);
+      position: relative;
+    }
+
+    .step::before {
+      content: '';
+      position: absolute;
+      left: 25px;
+      top: 62px;
+      bottom: -1px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--hairline2), transparent);
+    }
+
+    .step:last-child {
+      border-bottom: none;
+    }
+
+    .step:last-child::before {
+      display: none;
+    }
+
+    .step-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--bg);
+      background: var(--cyan);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+      font-weight: 700;
+      box-shadow: 0 0 16px rgba(16, 204, 232, 0.4);
+    }
+
+    .step h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 7px;
+      letter-spacing: -0.01em;
+    }
+
+    .step p {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .step-badge {
+      display: inline-block;
+      margin-top: 10px;
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 3px 9px;
+      border-radius: 4px;
+      background: var(--cyan-dim);
+      color: var(--cyan);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ─────────────────────────────────────────
+   DATA TABLES
+───────────────────────────────────────── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 32px 0;
+      font-size: 14px;
+    }
+
+    .data-table th {
+      text-align: left;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--hairline2);
+      font-weight: 400;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .data-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      vertical-align: middle;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table tr:hover td {
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 5px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .badge::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .badge-emerald {
+      background: rgba(142, 224, 198, 0.12);
+      color: var(--emerald);
+    }
+
+    .badge-emerald::before {
+      background: var(--emerald);
+      box-shadow: 0 0 6px var(--emerald);
+    }
+
+    .badge-purple {
+      background: var(--purple-dim);
+      color: var(--purple);
+    }
+
+    .badge-purple::before {
+      background: var(--purple);
+      box-shadow: 0 0 6px var(--purple);
+    }
+
+    .badge-gold {
+      background: var(--gold-dim);
+      color: var(--gold);
+    }
+
+    .badge-gold::before {
+      background: var(--gold);
+    }
+
+    .badge-blue {
+      background: var(--blue-dim);
+      color: var(--blue);
+    }
+
+    /* ─────────────────────────────────────────
+   ALLOCATION BARS
+───────────────────────────────────────── */
+    .alloc-list {
+      margin: 24px 0;
+    }
+
+    .alloc-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 16px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .alloc-item:last-child {
+      border-bottom: none;
+    }
+
+    .alloc-name {
+      font-size: 13.5px;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .alloc-name .sector {
+      display: block;
+      font-size: 10px;
+      color: var(--dim);
+      font-family: var(--mono);
+      letter-spacing: 0.06em;
+      margin-top: 1px;
+    }
+
+    .alloc-bar-bg {
+      height: 7px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .alloc-bar {
+      height: 100%;
+      border-radius: 4px;
+    }
+
+    .alloc-pct {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* ─────────────────────────────────────────
+   CHART BOX
+───────────────────────────────────────── */
+    .chart-box {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 20px;
+      padding: 36px;
+      margin: 32px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chart-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 80% at 85% 15%, rgba(110, 100, 220, 0.10), transparent 60%);
+      pointer-events: none;
+    }
+
+    .chart-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 8px;
+    }
+
+    .chart-value {
+      font-size: 50px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .chart-value .delta {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--emerald);
+      margin-left: 12px;
+      vertical-align: middle;
+    }
+
+    .perf-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 28px;
+      border-top: 1px solid var(--hairline);
+      padding-top: 22px;
+    }
+
+    .perf-cell .pk {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .perf-cell .pv {
+      font-weight: 600;
+      font-size: 24px;
+      color: #fff;
+      margin-top: 7px;
+      letter-spacing: -0.02em;
+    }
+
+    /* ─────────────────────────────────────────
+   VAULT CARDS
+───────────────────────────────────────── */
+    .vault-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 32px 0;
+    }
+
+    .vault-card {
+      background: linear-gradient(180deg, rgba(80, 50, 140, 0.18), rgba(30, 15, 60, 0.10));
+      border: 1px dashed rgba(184, 144, 255, 0.32);
+      border-radius: 18px;
+      padding: 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s;
+    }
+
+    .vault-card:hover {
+      border-color: rgba(184, 144, 255, 0.55);
+      box-shadow: 0 20px 60px -20px rgba(184, 144, 255, 0.25);
+    }
+
+    .vault-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(184, 144, 255, 0.12), transparent 60%);
+      pointer-events: none;
+    }
+
+    .vault-card .tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: rgba(220, 200, 255, 0.9);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: 1px solid rgba(184, 144, 255, 0.4);
+      border-radius: 5px;
+      padding: 4px 10px;
+      display: inline-block;
+      margin-bottom: 20px;
+      background: rgba(40, 25, 80, 0.5);
+    }
+
+    .vault-card .q {
+      font-size: 90px;
+      font-weight: 300;
+      color: #fff;
+      line-height: 1;
+      text-shadow: 0 0 40px rgba(184, 144, 255, 0.6);
+      animation: q-pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes q-pulse {
+
+      0%,
+      100% {
+        opacity: .8;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.04)
+      }
+    }
+
+    .vault-card .unlock {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: rgba(220, 200, 255, 0.65);
+      letter-spacing: 0.08em;
+      margin-top: 14px;
+    }
+
+    .vault-card .scan-bar {
+      height: 3px;
+      background: rgba(184, 144, 255, 0.12);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .vault-card .scan-bar i {
+      display: block;
+      width: 30%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(220, 200, 255, 0.9), transparent);
+      animation: scan 2.4s ease-in-out infinite;
+    }
+
+    @keyframes scan {
+      0% {
+        transform: translateX(-100%)
+      }
+
+      100% {
+        transform: translateX(400%)
+      }
+    }
+
+    /* ─────────────────────────────────────────
+   TWO-COL
+───────────────────────────────────────── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin: 32px 0;
+    }
+
+    .col h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .col p {
+      font-size: 14px;
+    }
+
+    .col ul {
+      list-style: none;
+    }
+
+    .col ul li {
+      padding: 8px 0;
+      font-size: 14px;
+      color: var(--muted);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .col ul li::before {
+      content: '—';
+      color: var(--cyan);
+      flex-shrink: 0;
+      font-size: 12px;
+    }
+
+    .col ul li:last-child {
+      border-bottom: none;
+    }
+
+    /* ─────────────────────────────────────────
+   RISK CARDS
+───────────────────────────────────────── */
+    .risk-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 32px 0;
+    }
+
+    .risk-card {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 16px;
+      padding: 24px;
+      transition: border-color .3s;
+    }
+
+    .risk-card:hover {
+      border-color: var(--hairline2);
+    }
+
+    .risk-card .rk {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .risk-card .rk::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+      box-shadow: 0 0 6px var(--gold);
+    }
+
+    .risk-card .rv {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─────────────────────────────────────────
+   HOW-IT-WORKS FLOW (visual for regular people)
+───────────────────────────────────────── */
+    .flow-row {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin: 36px 0;
+      overflow-x: auto;
+    }
+
+    .flow-card {
+      flex: 1;
+      min-width: 150px;
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 0;
+      padding: 24px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .flow-card:first-child {
+      border-radius: 16px 0 0 16px;
+    }
+
+    .flow-card:last-child {
+      border-radius: 0 16px 16px 0;
+    }
+
+    .flow-card+.flow-card {
+      border-left: none;
+    }
+
+    .flow-arrow {
+      position: absolute;
+      right: -14px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg1);
+      border: 1px solid var(--hairline2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--cyan);
+    }
+
+    .flow-card:last-child .flow-arrow {
+      display: none;
+    }
+
+    .flow-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .flow-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .flow-desc {
+      font-size: 11px;
+      color: var(--dim);
+      line-height: 1.45;
+      font-family: var(--mono);
+      letter-spacing: 0.03em;
+    }
+
+    /* ─────────────────────────────────────────
+   BENEFIT PILLS
+───────────────────────────────────────── */
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 32px 0;
+    }
+
+    .benefit-card {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, transform .3s;
+    }
+
+    .benefit-card:hover {
+      border-color: var(--hairline2);
+      transform: translateY(-3px);
+    }
+
+    .benefit-card .bnum {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--dim);
+      margin-bottom: 14px;
+      letter-spacing: 0.1em;
+    }
+
+    .benefit-card .btitle {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .benefit-card .bdesc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .benefit-card .bicon {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    /* ─────────────────────────────────────────
+   ENTRY PRICE + FORMULA + SCENARIOS
+───────────────────────────────────────── */
+    .entry-price-card {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.07), rgba(110, 145, 255, 0.05));
+      border: 1px solid rgba(245, 158, 11, 0.22);
+      border-radius: 20px;
+      padding: 32px 36px;
+      margin: 28px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .ep-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 10px;
+    }
+
+    .ep-price {
+      font-size: 58px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+
+    .ep-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+      font-family: var(--mono);
+      letter-spacing: 0.05em;
+    }
+
+    .ep-stats {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--hairline);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .ep-stat {
+      padding: 14px 22px;
+      text-align: center;
+      border-right: 1px solid var(--hairline);
+    }
+
+    .ep-stat:last-child {
+      border-right: none;
+    }
+
+    .ep-stat .eps-val {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .ep-stat .eps-lbl {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    .formula-box {
+      background: rgba(4, 5, 8, 0.9);
+      border: 1px solid var(--hairline2);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin: 14px 0;
+      font-family: var(--mono);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .formula-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--blue), var(--purple));
+    }
+
+    .fb-label {
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    .fb-expr {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .fb-lhs {
+      font-size: 19px;
+      color: var(--cyan);
+      font-style: italic;
+    }
+
+    .fb-eq {
+      font-size: 19px;
+      color: var(--dim);
+      margin: 0 4px;
+    }
+
+    .fb-fraction {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      margin: 0 6px;
+    }
+
+    .fb-numerator {
+      font-size: 14px;
+      color: var(--text);
+      padding: 0 6px 5px;
+    }
+
+    .fb-fraction-bar {
+      width: 100%;
+      height: 1px;
+      background: rgba(16, 204, 232, 0.45);
+    }
+
+    .fb-denominator {
+      font-size: 13px;
+      color: var(--muted);
+      padding: 5px 6px 0;
+    }
+
+    .fb-bracket {
+      font-size: 28px;
+      color: var(--dim);
+      line-height: 1;
+      font-weight: 200;
+    }
+
+    .fb-sigma {
+      font-size: 20px;
+      color: var(--dim);
+      margin: 0 2px;
+    }
+
+    .fb-var {
+      color: var(--cyan);
+      font-style: italic;
+    }
+
+    .fb-val {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .fb-sup {
+      font-size: 11px;
+      color: var(--blue);
+      vertical-align: super;
+    }
+
+    .fb-params {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--hairline);
+      margin-bottom: 14px;
+    }
+
+    .fb-param {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .fb-param .fp-var {
+      font-size: 13px;
+    }
+
+    .fb-param .fp-def {
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+    }
+
+    .fb-constraints {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding-top: 14px;
+      border-top: 1px solid var(--hairline);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+
+    .fb-dot {
+      color: var(--dim);
+    }
+
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin: 14px 0 6px;
+    }
+
+    .scenario-card {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 14px;
+      padding: 20px 12px;
+      text-align: center;
+      transition: border-color .25s, transform .25s;
+    }
+
+    .scenario-card:hover {
+      border-color: var(--hairline2);
+      transform: translateY(-2px);
+    }
+
+    .scenario-card.sc-featured {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(245, 158, 11, 0.02));
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .sc-mult {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.03em;
+      margin-bottom: 5px;
+    }
+
+    .sc-return {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--emerald);
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+
+    .sc-price {
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .sc-lbl {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ─────────────────────────────────────────
+   PORTFOLIO CARDS
+───────────────────────────────────────── */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 36px 0 12px;
+    }
+
+    .portfolio-hidden-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 44px;
+    }
+
+    .portfolio-card {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 16px;
+      padding: 22px 20px 18px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .portfolio-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 44px -16px rgba(0, 0, 0, 0.5);
+    }
+
+    .portfolio-card .pc-accent {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .portfolio-card .pc-num {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.16em;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .portfolio-card .pc-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+
+    .portfolio-card .pc-ticker {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .portfolio-card .pc-sector {
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 3px 9px;
+      border-radius: 5px;
+      letter-spacing: 0.07em;
+      display: inline-block;
+    }
+
+    .portfolio-card .pc-badge {
+      margin-top: auto;
+      padding-top: 14px;
+    }
+
+    .portfolio-card.portfolio-hidden {
+      background: linear-gradient(135deg, rgba(184, 144, 255, 0.06), rgba(30, 15, 60, 0.03));
+      border: 1px dashed rgba(184, 144, 255, 0.28);
+    }
+
+    .portfolio-card.portfolio-hidden:hover {
+      border-color: rgba(184, 144, 255, 0.5);
+    }
+
+    .portfolio-card.portfolio-hidden .pc-name {
+      filter: blur(5px);
+      user-select: none;
+      color: rgba(220, 200, 255, 0.6);
+      pointer-events: none;
+    }
+
+    /* Portfolio weight bars */
+    .portfolio-weights {
+      margin: 8px 0 40px;
+    }
+
+    .pw-row {
+      display: grid;
+      grid-template-columns: 148px 1fr 48px;
+      gap: 14px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .pw-row:last-child {
+      border-bottom: none;
+    }
+
+    .pwl-name {
+      font-size: 13.5px;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .pwl-sector {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+
+    .pw-bar-bg {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .pw-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+    }
+
+    .pw-pct {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* Criteria cards */
+    .criteria-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 36px 0 0;
+    }
+
+    .criteria-card {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .criteria-card .cc-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .criteria-card .cc-title::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .criteria-card.cc-include .cc-title::before {
+      background: var(--emerald);
+      box-shadow: 0 0 8px var(--emerald);
+    }
+
+    .criteria-card.cc-exclude .cc-title::before {
+      background: var(--red);
+      box-shadow: 0 0 8px var(--red);
+    }
+
+    .criteria-card ul {
+      list-style: none;
+    }
+
+    .criteria-card ul li {
+      padding: 8px 0;
+      font-size: 13.5px;
+      color: var(--muted);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      line-height: 1.5;
+    }
+
+    .criteria-card ul li:last-child {
+      border-bottom: none;
+    }
+
+    .criteria-card.cc-include ul li::before {
+      content: '✓';
+      color: var(--emerald);
+      font-size: 11px;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+
+    .criteria-card.cc-exclude ul li::before {
+      content: '✕';
+      color: var(--red);
+      font-size: 11px;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+
+    /* ─────────────────────────────────────────
+   WEIGHT ALLOCATION MODEL
+───────────────────────────────────────── */
+    .alloc-split-bar {
+      display: flex;
+      height: 18px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 40px 0 10px;
+      gap: 3px;
+    }
+
+    .alloc-split-bar .asb-private {
+      flex: 60;
+      background: linear-gradient(90deg, var(--cyan), #0ea5e9);
+      border-radius: 10px 0 0 10px;
+    }
+
+    .alloc-split-bar .asb-crypto {
+      flex: 25;
+      background: linear-gradient(90deg, var(--blue), #818cf8);
+    }
+
+    .alloc-split-bar .asb-alpha {
+      flex: 15;
+      background: linear-gradient(90deg, var(--purple), rgba(184, 144, 255, 0.55));
+      border-radius: 0 10px 10px 0;
+    }
+
+    .alloc-split-legend {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .alloc-split-legend .asl-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    .alloc-split-legend .asl-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .alloc-layer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 0 0 36px;
+    }
+
+    .alloc-layer-card {
+      border-radius: 20px;
+      padding: 32px 28px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid;
+    }
+
+    .alloc-layer-card .alc-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .alloc-layer-card .alc-pct {
+      font-size: 68px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      margin-bottom: 14px;
+    }
+
+    .alloc-layer-card .alc-pct sup {
+      font-size: 28px;
+      font-weight: 400;
+      opacity: 0.55;
+      vertical-align: super;
+      letter-spacing: 0;
+    }
+
+    .alloc-layer-card .alc-bar {
+      height: 4px;
+      border-radius: 2px;
+      margin-bottom: 20px;
+    }
+
+    .alloc-layer-card .alc-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .alloc-layer-card .alc-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .alloc-layer-card.alc-private {
+      background: linear-gradient(135deg, rgba(16, 204, 232, 0.08), rgba(16, 204, 232, 0.02));
+      border-color: rgba(16, 204, 232, 0.22);
+    }
+
+    .alloc-layer-card.alc-crypto {
+      background: linear-gradient(135deg, rgba(110, 145, 255, 0.08), rgba(110, 145, 255, 0.02));
+      border-color: rgba(110, 145, 255, 0.22);
+    }
+
+    .alloc-layer-card.alc-alpha {
+      background: linear-gradient(135deg, rgba(184, 144, 255, 0.10), rgba(184, 144, 255, 0.02));
+      border-color: rgba(184, 144, 255, 0.28);
+      border-style: dashed;
+    }
+
+    .alloc-formula {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin: 36px 0;
+      flex-wrap: wrap;
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 20px;
+      padding: 28px 32px;
+    }
+
+    .alloc-formula-chunk {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 28px;
+    }
+
+    .alloc-formula-chunk .afc-val {
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .alloc-formula-chunk .afc-lbl {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-top: 7px;
+    }
+
+    .alloc-formula-sep {
+      font-size: 28px;
+      color: var(--dim);
+      font-weight: 300;
+      padding: 0 4px;
+      align-self: flex-start;
+      margin-top: 4px;
+    }
+
+    .alloc-formula-eq {
+      font-size: 28px;
+      color: var(--muted);
+      padding: 0 8px;
+      align-self: flex-start;
+      margin-top: 4px;
+    }
+
+    .alloc-formula-total {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 28px;
+    }
+
+    .alloc-formula-total .aft-val {
+      font-size: 38px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .alloc-formula-total .aft-lbl {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-top: 7px;
+    }
+
+    /* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--hairline);
+      padding: 60px 40px 48px;
+      max-width: 940px;
+      margin: 0 auto;
+    }
+
+    .foot-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .foot-brand span {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .foot-brand .ver {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--dim);
+      margin-left: 4px;
+    }
+
+    .foot-tagline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0;
+      margin-bottom: 36px;
+      padding: 28px 0;
+      border-top: 1px solid var(--hairline);
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .foot-tagline .ft-item {
+      flex: 1;
+      min-width: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 16px;
+      position: relative;
+    }
+
+    .foot-tagline .ft-item+.ft-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 32px;
+      background: var(--hairline2);
+    }
+
+    .foot-tagline .ft-val {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .foot-tagline .ft-lbl {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+
+    .foot-legal {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.05em;
+      line-height: 1.9;
+      max-width: 100%;
+      padding-top: 28px;
+      border-top: 1px solid var(--hairline);
+    }
+
+    /* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+    @media(max-width:860px) {
+      .sidenav {
+        display: none;
+      }
+
+      .metric-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .toc-list {
+        grid-template-columns: 1fr;
+      }
+
+      .vault-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .perf-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .risk-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cover-meta {
+        flex-direction: column;
+      }
+
+      .cover-cell {
+        border-right: none;
+        border-bottom: 1px solid var(--hairline);
+      }
+
+      .cover-cell:last-child {
+        border-bottom: none;
+      }
+
+      .layer {
+        flex-wrap: wrap;
+      }
+
+      .layer-label {
+        writing-mode: horizontal-tb;
+        transform: none;
+        min-height: auto;
+      }
+
+      .layer-count {
+        font-size: 26px;
+      }
+
+      .benefit-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .alloc-layer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .scenario-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .fb-params {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .entry-price-card {
+        flex-direction: column;
+      }
+
+      .ep-stats {
+        flex-wrap: wrap;
+      }
+
+      .portfolio-hidden-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .criteria-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pw-row {
+        grid-template-columns: 120px 1fr 44px;
+      }
+
+      .alloc-formula {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .alloc-formula-sep,
+      .alloc-formula-eq {
+        padding: 0;
+      }
+
+      .flow-row {
+        flex-direction: column;
+      }
+
+      .flow-card:first-child {
+        border-radius: 16px 16px 0 0;
+      }
+
+      .flow-card:last-child {
+        border-radius: 0 0 16px 16px;
+      }
+
+      .flow-card+.flow-card {
+        border-left: 1px solid var(--hairline);
+        border-top: none;
+      }
+
+      .flow-arrow {
+        display: none;
+      }
+    }
+
+    @media(max-width:520px) {
+
+      .page,
+      .toc,
+      footer {
+        padding: 0 20px;
+      }
+
+      .cover {
+        padding: 80px 24px 60px;
+      }
+
+      .benefit-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .alloc-item {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+      }
+
+      body::before,
+      .sidenav {
+        display: none;
+      }
+
+      section {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDE NAV -->
+  <nav class="sidenav" id="sidenav" aria-label="Page navigation">
+    <a href="#cover" class="active"><span class="dot"></span><span class="lbl">Cover</span></a>
+    <a href="#intro"> <span class="dot"></span><span class="lbl">Intro</span></a>
+    <a href="#structure"> <span class="dot"></span><span class="lbl">Structure</span></a>
+    <a href="#portfolio"> <span class="dot"></span><span class="lbl">Portfolio</span></a>
+    <a href="#hidden"> <span class="dot"></span><span class="lbl">Hidden Alpha</span></a>
+    <a href="#howworks"> <span class="dot"></span><span class="lbl">How It Works</span></a>
+    <a href="#allocation"> <span class="dot"></span><span class="lbl">Allocation</span></a>
+    <a href="#governance"> <span class="dot"></span><span class="lbl">Governance</span></a>
+    <a href="#faq"> <span class="dot"></span><span class="lbl">FAQ</span></a>
+    <a href="#risk"> <span class="dot"></span><span class="lbl">Risk</span></a>
+    <a href="#legal"> <span class="dot"></span><span class="lbl">Legal</span></a>
+    <a href="#roadmap"> <span class="dot"></span><span class="lbl">Roadmap</span></a>
+  </nav>
+
+  <!-- ═══════════════════════════ COVER ═══════════════════════════ -->
+  <div class="cover" id="cover">
+    <div class="cover-bg-ring"></div>
+    <div class="cover-bg-ring"></div>
+    <div class="cover-bg-ring"></div>
+    <div class="cover-glow"></div>
+    <div class="cover-content">
+      <img class="cover-emblem" src="img/fef15_logo_mark_white_gold_transparent.svg" alt="FEF15">
+
+      <div class="cover-eyebrow">Whitepaper — Version 2.0 · June 2026</div>
+      <h1 class="cover-title"><span class="g1">FEF15 Coin</span></h1>
+      <p class="cover-sub">A digital asset combining 12 private stock exposures, crypto market growth, and a
+        confidential Hidden Alpha Layer into one modern market product.</p>
+
+      <div class="cover-meta">
+        <div class="cover-cell">
+          <div class="ck">Ticker</div>
+          <div class="cv gold">FEF15</div>
+        </div>
+        <div class="cover-cell">
+          <div class="ck">Visible Assets</div>
+          <div class="cv cyan">12</div>
+        </div>
+        <div class="cover-cell">
+          <div class="ck">Hidden Assets</div>
+          <div class="cv" style="color:var(--purple);">3</div>
+        </div>
+        <div class="cover-cell">
+          <div class="ck">Total Structure</div>
+          <div class="cv">15</div>
+        </div>
+        <div class="cover-cell">
+          <div class="ck">Asset Type</div>
+          <div class="cv">On-Chain</div>
+        </div>
+      </div>
+
+      <p class="cover-disclaimer">
+        THIS DOCUMENT IS FOR INFORMATIONAL PURPOSES ONLY AND DOES NOT CONSTITUTE AN OFFER OR SOLICITATION TO BUY OR SELL
+        ANY SECURITY.
+        FEF15 COIN IS NOT A TOKENIZED STOCK AND DOES NOT PROVIDE OWNERSHIP OF COMPANY SHARES, VOTING RIGHTS, OR
+        DIVIDENDS.
+        PAST PERFORMANCE IS NOT INDICATIVE OF FUTURE RESULTS. CAPITAL AT RISK. NOT INVESTMENT ADVICE.
+      </p>
+    </div>
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <div class="toc-eyebrow">Contents</div>
+    <ul class="toc-list">
+      <li><a href="#intro">What Is FEF15 Coin <span class="num">01</span></a></li>
+      <li><a href="#structure">The Three-Layer Structure <span class="num">02</span></a></li>
+      <li><a href="#portfolio">Portfolio Construction <span class="num">03</span></a></li>
+      <li><a href="#hidden">The Hidden Alpha Layer <span class="num">04</span></a></li>
+      <li><a href="#howworks">How It Works <span class="num">05</span></a></li>
+      <li><a href="#allocation">Weight Allocation Model <span class="num">06</span></a></li>
+      <li><a href="#governance">Governance &amp; Rebalancing <span class="num">07</span></a></li>
+      <li><a href="#faq">Frequently Asked Questions <span class="num">08</span></a></li>
+      <li><a href="#risk">Risk Disclosures <span class="num">09</span></a></li>
+      <li><a href="#legal">Legal &amp; Regulatory <span class="num">10</span></a></li>
+      <li><a href="#roadmap">Roadmap &amp; Milestones <span class="num">11</span></a></li>
+    </ul>
+  </div>
+
+  <div class="page">
+
+    <!-- ═══════════════════════════
+     01 · WHAT IS INDEX COIN
+════════════════════════════ -->
+    <section id="intro">
+      <div class="eyebrow cyan">01 — What Is FEF15 Coin</div>
+      <h2 class="section-title">One asset. Private markets. Crypto growth. Hidden strategy.</h2>
+
+      <p>FEF15 Coin is a digital asset designed to give users combined exposure to <strong>private stock
+          opportunities</strong> and <strong>crypto market growth</strong> through one simple product. Instead of buying
+        private company positions, managing crypto portfolios, and tracking multiple markets separately, users access
+        all of this through a single on-chain asset.</p>
+
+      <p>The concept is straightforward: the world's most exciting investment opportunities are split across two worlds
+        — private companies building the future, and crypto networks reshaping finance. FEF15 Coin bridges both.</p>
+
+      <div class="explainer">
+        <div class="el">Plain language — what this actually means for you</div>
+        <p>Think of FEF15 Coin as a <strong>basket</strong>. Inside that basket are 12 selected private companies —
+          companies doing breakthrough work in AI, space, biology, fintech, and other high-growth fields. Alongside
+          those, the basket includes crypto market exposure. And hidden inside it are 3 additional assets whose
+          identities are kept confidential to protect the strategy. You buy one coin. You get access to all of it. You
+          do not own shares in any company. You do not get voting rights. You get exposure to the movement of those
+          markets through one digital asset.</p>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric">
+          <div class="mk">Visible Private Stocks</div>
+          <div class="mv cyan">12</div>
+          <div class="ms">Selected breakthrough companies</div>
+        </div>
+        <div class="metric">
+          <div class="mk">Hidden Alpha Assets</div>
+          <div class="mv" style="color:var(--purple);">3</div>
+          <div class="ms">Confidential strategic layer</div>
+        </div>
+        <div class="metric">
+          <div class="mk">Total Structure</div>
+          <div class="mv gold">15</div>
+          <div class="ms">Assets in one product</div>
+        </div>
+        <div class="metric">
+          <div class="mk">Market Access</div>
+          <div class="mv up">2×</div>
+          <div class="ms">Private markets + crypto</div>
+        </div>
+      </div>
+
+      <p>FEF15 Coin is <strong>not a tokenized stock</strong>. It does not represent ownership of company shares, does
+        not give voting rights, and does not pay dividends. It is an independent digital asset with its own structure
+        and market logic — designed to reflect the performance of private market opportunities and crypto growth, not to
+        replicate equity ownership.</p>
+    </section>
+
+    <!-- ═══════════════════════════
+     02 · THREE-LAYER STRUCTURE
+════════════════════════════ -->
+    <section id="structure">
+      <div class="eyebrow">02 — The Three-Layer Structure</div>
+      <h2 class="section-title">Three layers. <span class="dim">One asset.</span></h2>
+
+      <p>FEF15 Coin is built around three distinct layers, each serving a specific purpose. Together, they create a
+        product that is diversified, defensible, and designed for long-term market participation.</p>
+
+      <div class="layer-diagram">
+
+        <div class="layer layer-private">
+          <div class="layer-label">Layer 01</div>
+          <div class="layer-content">
+            <div class="layer-title">Private Stock Layer — The Visible Foundation</div>
+            <div class="layer-desc">12 selected private companies or private-market-linked opportunities. These form the
+              core, publicly disclosed part of the product. Users can see which companies are included, their weights,
+              and the reasoning behind each selection.</div>
+            <div class="layer-chip-row">
+              <span class="layer-chip">OpenAI</span><span class="layer-chip">Anthropic</span><span
+                class="layer-chip">SpaceX</span>
+              <span class="layer-chip">Neuralink</span><span class="layer-chip">Stripe</span><span
+                class="layer-chip">Skild AI</span>
+              <span class="layer-chip">Kalshi</span><span class="layer-chip">Polymarket</span><span
+                class="layer-chip">xAI</span>
+              <span class="layer-chip">Waymo</span><span class="layer-chip">Databricks</span><span
+                class="layer-chip">Perplexity</span>
+            </div>
+          </div>
+          <div class="layer-count">12</div>
+        </div>
+
+        <div class="layer layer-crypto">
+          <div class="layer-label">Layer 02</div>
+          <div class="layer-content">
+            <div class="layer-title">Crypto Layer — Digital Asset Growth</div>
+            <div class="layer-desc">FEF15 Coin connects users to crypto market performance and digital asset growth
+              alongside the private stock layer. This creates a bridge between traditional private-market investing and
+              the rapidly growing digital asset economy.</div>
+            <div class="layer-chip-row">
+              <span class="layer-chip">Digital Assets</span><span class="layer-chip">Blockchain Markets</span><span
+                class="layer-chip">Crypto Growth</span><span class="layer-chip">Web3 Exposure</span>
+            </div>
+          </div>
+          <div class="layer-count" style="font-size:28px;line-height:1.2;color:var(--blue);">∞</div>
+        </div>
+
+        <div class="layer layer-hidden">
+          <div class="layer-label">Layer 03</div>
+          <div class="layer-content">
+            <div class="layer-title">Hidden Alpha Layer — The Confidential Edge</div>
+            <div class="layer-desc">3 assets held under full confidentiality. Their identities are not publicly
+              disclosed. This layer exists to protect the strategy, prevent imitation, and create a market edge that
+              cannot be copied. The hidden assets are active parts of the market logic — they influence performance —
+              but their composition is never revealed publicly.</div>
+            <div class="layer-chip-row">
+              <span class="layer-chip">α-01 · Classified</span>
+              <span class="layer-chip">α-02 · Classified</span>
+              <span class="layer-chip">α-03 · Classified</span>
+            </div>
+          </div>
+          <div class="layer-count">3</div>
+        </div>
+
+      </div>
+
+      <div class="callout">
+        <div class="label">Why this structure works</div>
+        <p>Most investment products are either fully public (easy to copy, no edge) or fully opaque (hard to trust).
+          FEF15 Coin solves this by being <strong>partially transparent</strong>: 12 assets are fully disclosed and
+          understandable, while 3 remain hidden to protect the strategy. Users get both clarity and competitive
+          advantage in one product.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════
+     03 · PORTFOLIO CONSTRUCTION
+════════════════════════════ -->
+    <section id="portfolio">
+      <div class="eyebrow">03 — Portfolio Construction</div>
+      <h2 class="section-title">12 private companies. <span class="dim">Selected on merit.</span></h2>
+
+      <p>The 12 visible private stock exposures represent companies at the frontier of technology, finance, and human
+        progress. Each was selected for innovation velocity, market position, long-term defensibility, and growth
+        potential. None are public companies — this is not a stock market index. These are private-market opportunities,
+        packaged into one digital asset.</p>
+
+      <!-- 12 COMPANY CARDS -->
+      <div class="portfolio-grid">
+        <div class="portfolio-card">
+          <div class="pc-accent" style="background:linear-gradient(90deg,#10a37f,rgba(16,163,127,0.2));"></div>
+          <span class="pc-num">01</span>
+          <div class="pc-name">OpenAI</div>
+          <span class="pc-ticker">OPAI.PVT</span>
+          <span class="pc-sector" style="background:rgba(16,163,127,0.12);color:#10a37f;">Frontier AI</span>
+          <div class="pc-badge"><span class="badge badge-emerald">Disclosed</span></div>
+        </div>
+        <div class="portfolio-card">
+          <div class="pc-accent" style="background:linear-gradient(90deg,#c8a96e,rgba(200,169,110,0.2));"></div>
+          <span class="pc-num">02</span>
+          <div class="pc-name">Anthropic</div>
+          <span class="pc-ticker">ANTH.PVT</span>
+          <span class="pc-sector" style="background:rgba(200,169,110,0.12);color:#c8a96e;">AI Safety</span>
+          <div class="pc-badge"><span class="badge badge-emerald">Disclosed</span></div>
+        </div>
+        <div class="portfolio-card">
+          <div class="pc-accent" style="background:linear-gradient(90deg,#3a7bd5,rgba(58,123,213,0.2));"></div>
+          <span class="pc-num">03</span>
+          <div class="pc-name">SpaceX</div>
+          <span class="pc-ticker">SPAX.PVT</span>
+          <span class="pc-sector" style="background:rgba(58,123,213,0.12);color:#3a7bd5;">Space Infra</span>
+          <div class="pc-badge"><span class="badge badge-emerald">Disclosed</span></div>
+        </div>
+        <div class="portfolio-card">
+          <div class="pc-accent" style="background:linear-gradient(90deg,#6366f1,rgba(99,102,241,0.2));"></div>
+          <span class="pc-num">04</span>
+          <div class="pc-name">Kalshi</div>
+          <span class="pc-ticker">KLSH.PVT</span>
+          <span class="pc-sector" style="background:rgba(99,102,241,0.12);color:#6366f1;">Pred. Markets</span>
+          <div class="pc-badge"><span class="badge badge-emerald">Disclosed</span></div>
+        </div>
+        <div class="portfolio-card">
+          <div class="pc-accent" style="background:linear-gradient(90deg,#0ea5e9,rgba(14,165,233,0.2));"></div>
+          <span class="pc-num">05</span>
+          <div class="pc-name">Polymarket</div>
+          <span class="pc-ticker">POLA.PVT</span>
+          <span class="pc-sector" style="background:rgba(14,165,233,0.12);color:#0ea5e9;">On-Chain</span>
+          <div class="pc-badge"><span class="badge badge-emerald">Disclosed</span></div>
+        </div>
+        <div class="portfolio-card">
+          <div class="pc-accent" style="background:linear-gradient(90deg,#a855f7,rgba(168,85,247,0.2));"></div>
+          <span class="pc-num">06</span>
+          <div class="pc-name">Neuralink</div>
+          <span class="pc-ticker">NEUR.PVT</span>
+          <span class="pc-sector" style="background:rgba(168,85,247,0.12);color:#a855f7;">Neurotech</span>
+          <div class="pc-badge"><span class="badge badge-emerald">Disclosed</span></div>
+        </div>
+        <div class="portfolio-card">
+          <div class="pc-accent" style="background:linear-gradient(90deg,#f59e0b,rgba(245,158,11,0.2));"></div>
+          <span class="pc-num">07</span>
+          <div class="pc-name">Skild AI</div>
+          <span class="pc-ticker">SKIA.PVT</span>
+          <span class="pc-sector" style="background:rgba(245,158,11,0.12);color:#f59e0b;">Robotics</span>
+          <div class="pc-badge"><span class="badge badge-emerald">Disclosed</span></div>
+        </div>
+        <div class="portfolio-card">
+          <div class="pc-accent" style="background:linear-gradient(90deg,#6772e5,rgba(103,114,229,0.2));"></div>
+          <span class="pc-num">08</span>
+          <div class="pc-name">Stripe</div>
+          <span class="pc-ticker">STRP.PVT</span>
+          <span class="pc-sector" style="background:rgba(103,114,229,0.12);color:#6772e5;">Fintech</span>
+          <div class="pc-badge"><span class="badge badge-emerald">Disclosed</span></div>
+        </div>
+        <div class="portfolio-card">
+          <div class="pc-accent" style="background:linear-gradient(90deg,#ff6b35,rgba(255,107,53,0.2));"></div>
+          <span class="pc-num">09</span>
+          <div class="pc-name">xAI</div>
+          <span class="pc-ticker">XAI.PVT</span>
+          <span class="pc-sector" style="background:rgba(255,107,53,0.12);color:#ff6b35;">AI Lab</span>
+          <div class="pc-badge"><span class="badge badge-emerald">Disclosed</span></div>
+        </div>
+        <div class="portfolio-card">
+          <div class="pc-accent" style="background:linear-gradient(90deg,#1a73e8,rgba(26,115,232,0.2));"></div>
+          <span class="pc-num">10</span>
+          <div class="pc-name">Waymo</div>
+          <span class="pc-ticker">WAYM.PVT</span>
+          <span class="pc-sector" style="background:rgba(26,115,232,0.12);color:#1a73e8;">Autonomous</span>
+          <div class="pc-badge"><span class="badge badge-emerald">Disclosed</span></div>
+        </div>
+        <div class="portfolio-card">
+          <div class="pc-accent" style="background:linear-gradient(90deg,#ff3621,rgba(255,54,33,0.2));"></div>
+          <span class="pc-num">11</span>
+          <div class="pc-name">Databricks</div>
+          <span class="pc-ticker">DBRK.PVT</span>
+          <span class="pc-sector" style="background:rgba(255,54,33,0.12);color:#ff3621;">Data AI</span>
+          <div class="pc-badge"><span class="badge badge-emerald">Disclosed</span></div>
+        </div>
+        <div class="portfolio-card">
+          <div class="pc-accent" style="background:linear-gradient(90deg,#20b2aa,rgba(32,178,170,0.2));"></div>
+          <span class="pc-num">12</span>
+          <div class="pc-name">Perplexity</div>
+          <span class="pc-ticker">PRPL.PVT</span>
+          <span class="pc-sector" style="background:rgba(32,178,170,0.12);color:#20b2aa;">AI Search</span>
+          <div class="pc-badge"><span class="badge badge-emerald">Disclosed</span></div>
+        </div>
+      </div>
+
+      <!-- HIDDEN ALPHA SLOTS -->
+      <div style="margin-bottom:10px;">
+        <span
+          style="font-family:var(--mono);font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:0.18em;">Hidden
+          Alpha Layer — 3 Classified Positions</span>
+      </div>
+      <div class="portfolio-hidden-grid">
+        <div class="portfolio-card portfolio-hidden">
+          <div class="pc-accent" style="background:linear-gradient(90deg,rgba(184,144,255,0.5),rgba(184,144,255,0.1));">
+          </div>
+          <span class="pc-num">13</span>
+          <div class="pc-name">████████████</div>
+          <span class="pc-ticker" style="color:var(--purple);">α-01 · Classified</span>
+          <span class="pc-sector" style="background:var(--purple-dim);color:var(--purple);">Classified</span>
+          <div class="pc-badge"><span class="badge badge-purple">Hidden Alpha</span></div>
+        </div>
+        <div class="portfolio-card portfolio-hidden">
+          <div class="pc-accent" style="background:linear-gradient(90deg,rgba(184,144,255,0.5),rgba(184,144,255,0.1));">
+          </div>
+          <span class="pc-num">14</span>
+          <div class="pc-name">████████████</div>
+          <span class="pc-ticker" style="color:var(--purple);">α-02 · Classified</span>
+          <span class="pc-sector" style="background:var(--purple-dim);color:var(--purple);">Classified</span>
+          <div class="pc-badge"><span class="badge badge-purple">Hidden Alpha</span></div>
+        </div>
+        <div class="portfolio-card portfolio-hidden">
+          <div class="pc-accent" style="background:linear-gradient(90deg,rgba(184,144,255,0.5),rgba(184,144,255,0.1));">
+          </div>
+          <span class="pc-num">15</span>
+          <div class="pc-name">████████████</div>
+          <span class="pc-ticker" style="color:var(--purple);">α-03 · Classified</span>
+          <span class="pc-sector" style="background:var(--purple-dim);color:var(--purple);">Classified</span>
+          <div class="pc-badge"><span class="badge badge-purple">Hidden Alpha</span></div>
+        </div>
+      </div>
+
+      <!-- WEIGHT ALLOCATION -->
+      <h3 style="font-size:19px;font-weight:600;color:#fff;margin:8px 0 6px;letter-spacing:-0.02em;">Weight Allocation
+      </h3>
+      <p style="margin-bottom:4px;font-size:14px;">Each position is sized by innovation score, market position, and
+        liquidity metrics. No single asset may exceed 15% of the total portfolio.</p>
+
+      <!-- ENTRY PRICE -->
+      <div class="entry-price-card">
+        <div>
+          <div class="ep-label">Token Entry Price · At Listing</div>
+          <div class="ep-price">$0.01</div>
+          <div class="ep-sub">per FEF15 Coin · initial listing price</div>
+        </div>
+        <div class="ep-stats">
+          <div class="ep-stat">
+            <div class="eps-val">15</div>
+            <div class="eps-lbl">Total Assets</div>
+          </div>
+          <div class="ep-stat">
+            <div class="eps-val" style="color:var(--cyan);">12</div>
+            <div class="eps-lbl">Visible</div>
+          </div>
+          <div class="ep-stat">
+            <div class="eps-val" style="color:var(--purple);">3</div>
+            <div class="eps-lbl">Hidden</div>
+          </div>
+          <div class="ep-stat">
+            <div class="eps-val" style="color:var(--gold);">≤15%</div>
+            <div class="eps-lbl">Max Weight</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- POSITION WEIGHT FORMULA -->
+      <div class="formula-box">
+        <div class="fb-label">Position Weight Model — Geometric Scoring</div>
+        <div class="fb-expr">
+          <span class="fb-lhs">w<sub>i</sub></span>
+          <span class="fb-eq">=</span>
+          <div class="fb-fraction">
+            <div class="fb-numerator"><span class="fb-var">S<sub>i</sub></span><span class="fb-sup">α</span> <span
+                style="color:var(--dim);">×</span> <span class="fb-var">M<sub>i</sub></span><span
+                class="fb-sup">β</span> <span style="color:var(--dim);">×</span> <span
+                class="fb-var">L<sub>i</sub></span><span class="fb-sup">γ</span></div>
+            <div class="fb-fraction-bar"></div>
+            <div class="fb-denominator"><span class="fb-sigma">Σ</span><sub
+                style="font-size:10px;color:var(--dim);">j=1</sub><sup style="font-size:10px;color:var(--dim);">n</sup>
+              <span style="color:var(--dim);">(</span><span class="fb-var">S<sub>j</sub></span><span
+                class="fb-sup">α</span> <span style="color:var(--dim);">×</span> <span
+                class="fb-var">M<sub>j</sub></span><span class="fb-sup">β</span> <span
+                style="color:var(--dim);">×</span> <span class="fb-var">L<sub>j</sub></span><span
+                class="fb-sup">γ</span><span style="color:var(--dim);">)</span></div>
+          </div>
+        </div>
+        <div class="fb-params">
+          <div class="fb-param"><span class="fp-var fb-var">S<sub>i</sub></span><span class="fp-def">Innovation Score ·
+              range [0, 100]</span></div>
+          <div class="fb-param"><span class="fp-var fb-var">M<sub>i</sub></span><span class="fp-def">Market Position
+              Score · range [0, 100]</span></div>
+          <div class="fb-param"><span class="fp-var fb-var">L<sub>i</sub></span><span class="fp-def">Liquidity Score ·
+              range [0, 100]</span></div>
+          <div class="fb-param"><span class="fp-var fb-val">α = 0.45</span><span class="fp-def">Innovation exponent ·
+              highest weight</span></div>
+          <div class="fb-param"><span class="fp-var fb-val">β = 0.35</span><span class="fp-def">Market position
+              exponent</span></div>
+          <div class="fb-param"><span class="fp-var fb-val">γ = 0.20</span><span class="fp-def">Liquidity exponent ·
+              floor weight</span></div>
+        </div>
+        <div class="fb-constraints">
+          <span><span class="fb-var">Σ wᵢ</span> = 1.00</span>
+          <span class="fb-dot">·</span>
+          <span>max(<span class="fb-var">wᵢ</span>) ≤ 0.15</span>
+          <span class="fb-dot">·</span>
+          <span><span class="fb-var">n</span> = 15 assets</span>
+          <span class="fb-dot">·</span>
+          <span>rebalanced weekly</span>
+        </div>
+      </div>
+
+      <!-- TOKEN VALUATION MODEL -->
+      <div class="formula-box">
+        <div class="fb-label">Token Valuation Model — NAV-Linked Pricing</div>
+        <div class="fb-expr">
+          <span class="fb-lhs">V(t)</span>
+          <span class="fb-eq">=</span>
+          <span class="fb-val">P₀</span>
+          <span style="color:var(--dim);font-size:16px;margin:0 4px;">×</span>
+          <span class="fb-bracket">[</span>
+          <span class="fb-sigma">Σ</span>
+          <sub style="font-size:11px;color:var(--dim);margin-right:4px;">i</sub>
+          <span class="fb-var">wᵢ</span>
+          <span style="color:var(--dim);margin:0 5px;">·</span>
+          <span style="color:var(--text);">(1 +</span>
+          <span class="fb-var" style="margin:0 4px;">rᵢ(t)</span>
+          <span style="color:var(--text);">)</span>
+          <span style="color:var(--dim);font-size:16px;margin:0 6px;">+</span>
+          <span class="fb-val">α<sub>H</sub></span>
+          <span class="fb-bracket">]</span>
+        </div>
+        <div class="fb-params">
+          <div class="fb-param"><span class="fp-var fb-var">V(t)</span><span class="fp-def">Token price at time t</span>
+          </div>
+          <div class="fb-param"><span class="fp-var fb-val">P₀ = $0.01</span><span class="fp-def">Entry price at
+              listing</span></div>
+          <div class="fb-param"><span class="fp-var fb-var">rᵢ(t)</span><span class="fp-def">Asset i return at time
+              t</span></div>
+          <div class="fb-param"><span class="fp-var fb-var">wᵢ</span><span class="fp-def">Normalized position
+              weight</span></div>
+          <div class="fb-param"><span class="fp-var fb-val">α<sub>H</sub></span><span class="fp-def">Hidden Alpha
+              contribution · undisclosed</span></div>
+          <div class="fb-param"><span class="fp-var" style="color:var(--muted);">n = 15</span><span class="fp-def">Total
+              assets in structure</span></div>
+        </div>
+        <div class="fb-constraints">
+          <span><span class="fb-val">P₀</span> = $0.01 at t=0</span>
+          <span class="fb-dot">·</span>
+          <span><span class="fb-var">α<sub>H</sub></span> is confidential</span>
+          <span class="fb-dot">·</span>
+          <span>NAV updated within 2h of settlement</span>
+        </div>
+      </div>
+
+      <!-- GROWTH SCENARIOS -->
+      <div
+        style="margin-top:32px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+        <span
+          style="font-family:var(--mono);font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:0.18em;">Illustrative
+          Growth Scenarios — Entry P₀ = $0.01</span>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--red);letter-spacing:0.06em;">Not a projection ·
+          Capital at risk</span>
+      </div>
+      <div class="scenario-grid">
+        <div class="scenario-card">
+          <div class="sc-mult">5×</div>
+          <div class="sc-return">+400%</div>
+          <div class="sc-price" style="color:var(--muted);">$0.05</div>
+          <div class="sc-lbl">multiplier</div>
+        </div>
+        <div class="scenario-card">
+          <div class="sc-mult">10×</div>
+          <div class="sc-return">+900%</div>
+          <div class="sc-price" style="color:var(--cyan);">$0.10</div>
+          <div class="sc-lbl">multiplier</div>
+        </div>
+        <div class="scenario-card sc-featured">
+          <div class="sc-mult">100×</div>
+          <div class="sc-return">+9,900%</div>
+          <div class="sc-price" style="color:var(--gold);">$1.00</div>
+          <div class="sc-lbl">multiplier</div>
+        </div>
+        <div class="scenario-card">
+          <div class="sc-mult">500×</div>
+          <div class="sc-return">+49,900%</div>
+          <div class="sc-price" style="color:var(--cyan);">$5.00</div>
+          <div class="sc-lbl">multiplier</div>
+        </div>
+        <div class="scenario-card">
+          <div class="sc-mult">1,000×</div>
+          <div class="sc-return">+99,900%</div>
+          <div class="sc-price" style="color:var(--emerald);">$10.00</div>
+          <div class="sc-lbl">multiplier</div>
+        </div>
+      </div>
+      <p
+        style="font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:0.05em;line-height:1.8;margin-bottom:36px;">
+        THESE SCENARIOS ARE PURELY ILLUSTRATIVE AND ARE NOT FINANCIAL PROJECTIONS, TARGETS, OR GUARANTEES OF ANY KIND.
+        PAST MARKET BEHAVIOUR IS NOT INDICATIVE OF FUTURE RESULTS. ALL CAPITAL IS AT RISK.</p>
+
+      <!-- CRITERIA -->
+      <div class="criteria-grid">
+        <div class="criteria-card cc-include">
+          <div class="cc-title">Selection Criteria</div>
+          <ul>
+            <li>Minimum 3 years of operating history</li>
+            <li>Demonstrable revenue growth or market traction</li>
+            <li>Strong competitive moat and defensibility score</li>
+            <li>Clear path to long-term value creation</li>
+            <li>Adequate secondary-market liquidity floor</li>
+          </ul>
+        </div>
+        <div class="criteria-card cc-include">
+          <div class="cc-title">Quality Standards</div>
+          <ul>
+            <li>Full regulatory compliance and clean legal standing across all jurisdictions</li>
+            <li>Transparent ownership with a healthy, well-distributed cap table</li>
+            <li>Diversified revenue streams built across multiple markets and customers</li>
+            <li>Strong working capital position with funded runway and clear growth path</li>
+            <li>Proven competitive moat with top-tier defensibility score from our model</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════
+     04 · HIDDEN ALPHA LAYER
+════════════════════════════ -->
+    <section id="hidden">
+      <div class="eyebrow purple">04 — The Hidden Alpha Layer</div>
+      <h2 class="section-title">Three assets. <span class="dim">Permanently confidential.</span></h2>
+
+      <p>The Hidden Alpha Layer is one of the most distinctive features of FEF15 Coin. Three of the fifteen asset slots
+        are kept confidential — their identities, sectors, and specific allocations are never disclosed publicly. They
+        are active parts of the FEF15 Coin market logic, influencing returns alongside the visible 12.</p>
+
+      <div class="vault-grid">
+        <div class="vault-card">
+          <div class="tag">Hidden Alpha · α-01</div>
+          <div class="q">?</div>
+          <div class="unlock">Slot #13 · Confidential</div>
+          <div class="scan-bar"><i></i></div>
+        </div>
+        <div class="vault-card">
+          <div class="tag">Hidden Alpha · α-02</div>
+          <div class="q">?</div>
+          <div class="unlock">Slot #14 · Confidential</div>
+          <div class="scan-bar"><i></i></div>
+        </div>
+        <div class="vault-card">
+          <div class="tag">Hidden Alpha · α-03</div>
+          <div class="q">?</div>
+          <div class="unlock">Slot #15 · Confidential</div>
+          <div class="scan-bar"><i></i></div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="col">
+          <h4>Why keep assets hidden?</h4>
+          <p style="font-size:14px;">In traditional finance, strategies lose their advantage the moment they are copied.
+            A fully transparent product can be replicated by anyone with the same information. By keeping three asset
+            positions permanently confidential, FEF15 Coin creates a strategic layer that cannot be imitated —
+            protecting the edge that generates additional returns beyond the visible portfolio.</p>
+        </div>
+        <div class="col">
+          <h4>What the hidden layer creates</h4>
+          <ul>
+            <li>Strategic protection from imitation</li>
+            <li>Market uniqueness and product identity</li>
+            <li>Copy resistance — harder to replicate</li>
+            <li>A stronger and more exclusive user experience</li>
+            <li>Long-term differentiation from other products</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout"
+        style="background:linear-gradient(135deg,rgba(184,144,255,0.08),rgba(80,50,140,0.06));border-color:rgba(184,144,255,0.3);">
+        <div class="label" style="color:var(--purple);">Transparency balance</div>
+        <p>FEF15 Coin can be transparent without revealing everything. The platform provides full information about the
+          12 visible private stock exposures, the crypto exposure model, risk factors, performance logic, and
+          rebalancing rules — while keeping the 3 hidden assets confidential. This creates a product that is both
+          understandable and impossible to copy exactly.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════
+     05 · HOW IT WORKS
+════════════════════════════ -->
+    <section id="howworks">
+      <div class="eyebrow gold">05 — How It Works</div>
+      <h2 class="section-title">Simple to use. <span class="dim">Sophisticated by design.</span></h2>
+
+      <p>Here is exactly how FEF15 Coin works — explained simply, without financial jargon. You do not need to be an
+        expert to understand this product. That is by design.</p>
+
+      <div class="flow-row">
+        <div class="flow-card">
+          <div class="flow-arrow">→</div>
+          <div class="flow-icon">🏗️</div>
+          <div class="flow-title">Structure is built</div>
+          <div class="flow-desc">15 assets selected across private companies, crypto, and hidden positions</div>
+        </div>
+        <div class="flow-card">
+          <div class="flow-arrow">→</div>
+          <div class="flow-icon">⚖️</div>
+          <div class="flow-title">Weights assigned</div>
+          <div class="flow-desc">Each asset gets a % allocation based on performance, potential, and risk</div>
+        </div>
+        <div class="flow-card">
+          <div class="flow-arrow">→</div>
+          <div class="flow-icon">🔗</div>
+          <div class="flow-title">Minted on-chain</div>
+          <div class="flow-desc">FEF15 Coin is issued as one digital asset representing the full basket</div>
+        </div>
+        <div class="flow-card">
+          <div class="flow-arrow">→</div>
+          <div class="flow-icon">📈</div>
+          <div class="flow-title">Markets move</div>
+          <div class="flow-desc">The value of FEF15 Coin reflects the combined movement of all 15 positions</div>
+        </div>
+        <div class="flow-card">
+          <div class="flow-arrow">→</div>
+          <div class="flow-icon">🔄</div>
+          <div class="flow-title">Rebalanced</div>
+          <div class="flow-desc">Weights are adjusted regularly to stay aligned with the index methodology</div>
+        </div>
+      </div>
+
+      <h3 style="font-size:20px;font-weight:600;color:#fff;margin:48px 0 20px;letter-spacing:-0.02em;">Step by step —
+        from idea to investment</h3>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div>
+            <h4>The index is constructed</h4>
+            <p>A structured market model selects 12 private company exposures, defines the crypto component, and assigns
+              the 3 hidden asset slots. Each position is allocated a percentage weight based on its expected
+              contribution to the overall strategy. The result is a designed portfolio — not a random collection.</p>
+            <span class="step-badge">Model-driven selection</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div>
+            <h4>FEF15 Coin is issued as one on-chain asset</h4>
+            <p>The entire portfolio — all 15 positions combined — is packaged into a single digital token. When you hold
+              one unit of FEF15 Coin, you hold exposure to all 15 assets proportionally. You do not manage them
+              individually. You do not buy them separately. One coin, one position, everything included.</p>
+            <span class="step-badge">Single token · Full exposure</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div>
+            <h4>The value moves with the underlying markets</h4>
+            <p>As the private companies grow, as crypto markets move, and as the hidden assets perform — the value of
+              FEF15 Coin reflects all of that combined. You do not need to track 15 separate positions. The coin does it
+              for you. When the underlying assets rise in value, FEF15 Coin rises. When they fall, it falls too. This is
+              market exposure, not a guarantee.</p>
+            <span class="step-badge">Combined market reflection</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div>
+            <h4>The index is rebalanced regularly</h4>
+            <p>Over time, some companies grow faster than others. Without adjustment, a fast-growing company could
+              dominate the entire product. Rebalancing corrects this — it trims positions that have grown too large and
+              adds weight to those that have been underrepresented. This keeps the index aligned with the original
+              strategy and maintains diversification.</p>
+            <span class="step-badge">Weekly weight review</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">05</div>
+          <div>
+            <h4>The hidden layer stays protected</h4>
+            <p>The 3 hidden assets are never disclosed publicly. Their identities remain confidential at all times. They
+              are reviewed internally, managed with the same rigor as the visible 12, and contribute to the overall
+              performance of the product — but their composition is protected to prevent strategy imitation and preserve
+              FEF15 Coin's competitive edge.</p>
+            <span class="step-badge">Permanent confidentiality</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="font-size:20px;font-weight:600;color:#fff;margin:48px 0 20px;letter-spacing:-0.02em;">Why is this good
+        for regular people?</h3>
+
+      <div class="benefit-grid">
+        <div class="benefit-card">
+          <div class="bicon">🎯</div>
+          <div class="bnum">01</div>
+          <div class="btitle">No expertise required</div>
+          <div class="bdesc">You do not need to know how to evaluate private companies or trade crypto. The product is
+            designed and managed for you. You access the result — not the complexity behind it.</div>
+        </div>
+        <div class="benefit-card">
+          <div class="bicon">🌐</div>
+          <div class="bnum">02</div>
+          <div class="btitle">Access usually reserved for institutions</div>
+          <div class="bdesc">Private company exposure has historically been available only to large funds, venture
+            capital, and wealthy investors. FEF15 Coin packages that exposure into a digital asset anyone can hold.
+          </div>
+        </div>
+        <div class="benefit-card">
+          <div class="bicon">📦</div>
+          <div class="bnum">03</div>
+          <div class="btitle">One asset instead of many</div>
+          <div class="bdesc">No need to open multiple accounts, manage a crypto wallet separately, or track 15 different
+            positions. One digital asset, one transaction, full exposure.</div>
+        </div>
+        <div class="benefit-card">
+          <div class="bicon">🔒</div>
+          <div class="bnum">04</div>
+          <div class="btitle">Strategy that cannot be copied</div>
+          <div class="bdesc">The hidden layer protects the uniqueness of the product. You are not holding a product that
+            every competitor can replicate exactly — FEF15 Coin has a built-in differentiation advantage.</div>
+        </div>
+        <div class="benefit-card">
+          <div class="bicon">🔭</div>
+          <div class="bnum">05</div>
+          <div class="btitle">Exposure to the future</div>
+          <div class="bdesc">The visible 12 companies are at the frontier of AI, space, biology, and digital finance.
+            These are the kinds of companies that historically generated the most growth — before they became publicly
+            available to ordinary investors.</div>
+        </div>
+        <div class="benefit-card">
+          <div class="bicon">📋</div>
+          <div class="bnum">06</div>
+          <div class="btitle">Transparent where it counts</div>
+          <div class="bdesc">All 12 visible companies are disclosed with their weights and logic. Risk factors,
+            rebalancing rules, and performance reporting are published clearly. You know what you own and what drives
+            its value.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════
+     06 · WEIGHT ALLOCATION
+════════════════════════════ -->
+    <section id="allocation">
+      <div class="eyebrow">06 — Weight Allocation Model</div>
+      <h2 class="section-title">Three layers. <span class="dim">One weighted value structure.</span></h2>
+
+      <p>FEF15 Coin follows a <strong>60 / 25 / 15</strong> allocation model designed to balance private-market
+        exposure, crypto-market participation, and protected strategic upside. The structure avoids reliance on any
+        single value source by combining three distinct economic layers into one unified digital asset.</p>
+
+      <div class="alloc-split-bar">
+        <div class="asb-private"></div>
+        <div class="asb-crypto"></div>
+        <div class="asb-alpha"></div>
+      </div>
+      <div class="alloc-split-legend">
+        <div class="asl-item"><span class="asl-dot"
+            style="background:var(--cyan);box-shadow:0 0 6px var(--cyan);"></span>60% — Private-Market Foundation</div>
+        <div class="asl-item"><span class="asl-dot"
+            style="background:var(--blue);box-shadow:0 0 6px var(--blue);"></span>25% — Crypto Growth Layer</div>
+        <div class="asl-item"><span class="asl-dot"
+            style="background:var(--purple);box-shadow:0 0 6px var(--purple);"></span>15% — Protected Alpha Layer</div>
+      </div>
+
+      <div class="alloc-layer-grid">
+
+        <div class="alloc-layer-card alc-private">
+          <span class="alc-tag" style="color:var(--cyan);">Layer 01 · Private Market</span>
+          <div class="alc-pct" style="color:var(--cyan);">60<sup>%</sup></div>
+          <div class="alc-bar" style="width:100%;background:linear-gradient(90deg,var(--cyan),rgba(16,204,232,0.25));">
+          </div>
+          <div class="alc-title">Private-Market Foundation</div>
+          <p class="alc-desc">Built around 12 selected private-market exposures forming the visible foundation of FEF15.
+            Designed to connect the asset to long-term private-market growth potential across AI, space, fintech, and
+            frontier technology.</p>
+        </div>
+
+        <div class="alloc-layer-card alc-crypto">
+          <span class="alc-tag" style="color:var(--blue);">Layer 02 · Crypto Growth</span>
+          <div class="alc-pct" style="color:var(--blue);">25<sup>%</sup></div>
+          <div class="alc-bar"
+            style="width:41.7%;background:linear-gradient(90deg,var(--blue),rgba(110,145,255,0.25));"></div>
+          <div class="alc-title">Crypto Growth Layer</div>
+          <p class="alc-desc">Connects FEF15 Coin to the digital asset environment, supporting liquidity, market access,
+            public participation, and crypto-native price discovery across the broader digital asset ecosystem.</p>
+        </div>
+
+        <div class="alloc-layer-card alc-alpha">
+          <span class="alc-tag" style="color:var(--purple);">Layer 03 · Protected Alpha</span>
+          <div class="alc-pct" style="color:var(--purple);">15<sup>%</sup></div>
+          <div class="alc-bar"
+            style="width:25%;background:linear-gradient(90deg,var(--purple),rgba(184,144,255,0.25));"></div>
+          <div class="alc-title">Protected Alpha Layer</div>
+          <p class="alc-desc">3 confidential strategic assets designed to preserve differentiation, protect the model
+            from imitation, and create future milestone-based upside potential that cannot be replicated or anticipated
+            externally.</p>
+        </div>
+
+      </div>
+
+      <div class="alloc-formula">
+        <div class="alloc-formula-chunk">
+          <div class="afc-val" style="color:var(--cyan);">60%</div>
+          <div class="afc-lbl">Private Market</div>
+        </div>
+        <div class="alloc-formula-sep">+</div>
+        <div class="alloc-formula-chunk">
+          <div class="afc-val" style="color:var(--blue);">25%</div>
+          <div class="afc-lbl">Crypto Growth</div>
+        </div>
+        <div class="alloc-formula-sep">+</div>
+        <div class="alloc-formula-chunk">
+          <div class="afc-val" style="color:var(--purple);">15%</div>
+          <div class="afc-lbl">Protected Alpha</div>
+        </div>
+        <div class="alloc-formula-eq">=</div>
+        <div class="alloc-formula-total">
+          <div class="aft-val">100%</div>
+          <div class="aft-lbl">FEF15 Coin</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="label">Value drivers</div>
+        <p>Potential value growth may be influenced by private-market development, ecosystem adoption, exchange
+          liquidity, supply scarcity, market demand, and activation of protected alpha events. No single driver
+          dominates — the three-layer structure creates a diversified set of value inputs that are largely independent
+          of one another.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════
+     07 · GOVERNANCE
+════════════════════════════ -->
+    <section id="governance">
+      <div class="eyebrow">07 — Governance &amp; Rebalancing</div>
+      <h2 class="section-title">Model-driven. <span class="dim">Reviewed by humans. Published on-chain.</span></h2>
+
+      <p>FEF15 Coin is governed by a combination of a quantitative model and a human investment committee. The model
+        proposes; humans review; all decisions are published on-chain. This prevents both the cold errors of pure
+        automation and the emotional errors of pure human judgment.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div>
+            <h4>Signal collection — the model watches everything</h4>
+            <p>The model continuously monitors 2,400+ signals across all 15 positions — including private company
+              performance indicators, market sentiment, crypto market data, liquidity levels, and risk factors. This
+              gives it a broader view of the market than any single analyst.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div>
+            <h4>Weight optimization — every Monday</h4>
+            <p>Every Monday at 09:00 UTC, the model proposes new weights for each position. It solves for the
+              combination that best balances growth potential and risk — no single position can exceed 15% of the total,
+              and no sector can dominate the overall structure.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div>
+            <h4>Committee review — human check on the model</h4>
+            <p>A three-person investment committee reviews every proposed rebalance. They can override the model, but
+              only with documented cause — a regulatory event, a material adverse change, or a force majeure situation.
+              The override rate is published quarterly and historically remains below 8% of proposals.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div>
+            <h4>On-chain publication — immutable and verifiable</h4>
+            <p>Approved rebalances are published on-chain with a justification hash, timestamp, and committee sign-off.
+              This creates an immutable, publicly verifiable record of every decision made. NAV is updated within 2
+              hours of settlement.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="col">
+          <h4>Rebalance Calendar</h4>
+          <ul>
+            <li>Weight adjustments: Every Monday 09:00 UTC</li>
+            <li>Constituent review: First Monday of each quarter</li>
+            <li>Hidden Alpha review: Quarterly, confidential</li>
+            <li>Full methodology review: Annually each January</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h4>Published Information</h4>
+          <ul>
+            <li>12 visible asset identities and weights</li>
+            <li>Rebalancing schedule and rules</li>
+            <li>Risk factors and methodology</li>
+            <li>Hidden asset policy (not identities)</li>
+            <li>Committee override rate (quarterly)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════
+     08 · RISK
+════════════════════════════ -->
+    <section id="risk">
+      <div class="eyebrow gold">09 — Risk Disclosures</div>
+      <h2 class="section-title">Know what you own. <span class="dim">Know what can go wrong.</span></h2>
+
+      <p>FEF15 Coin involves real financial risk. The value of the asset can rise and fall. Users may lose part or all
+        of their investment. Before participating, read and understand the following risk categories. This is not an
+        exhaustive list — it covers the most material risks specific to FEF15 Coin's structure.</p>
+
+
+
+      <div class="risk-grid">
+        <div class="risk-card">
+          <div class="rk">Market Risk</div>
+          <div class="rv">The value of FEF15 Coin is connected to private company valuations and crypto market prices.
+            Both can be highly volatile. A broad market downturn would affect multiple positions simultaneously.</div>
+        </div>
+        <div class="risk-card">
+          <div class="rk">Private Market Risk</div>
+          <div class="rv">Private companies are harder to value than public ones. Their prices are not set in real-time
+            by market forces. Valuations can change significantly when new funding rounds occur or when negative events
+            happen internally.</div>
+        </div>
+        <div class="risk-card">
+          <div class="rk">Crypto Volatility Risk</div>
+          <div class="rv">Crypto markets are among the most volatile in the world. Significant price swings of 30–80% in
+            short periods have historically occurred. The crypto component of FEF15 Coin carries this inherent
+            volatility.</div>
+        </div>
+        <div class="risk-card">
+          <div class="rk">Hidden Asset Risk</div>
+          <div class="rv">Three positions in FEF15 Coin are not disclosed. Users cannot independently assess or value
+            these positions. This creates an information gap that is intentional by design, but represents a real risk
+            for users who prefer full transparency.</div>
+        </div>
+        <div class="risk-card">
+          <div class="rk">Liquidity Risk</div>
+          <div class="rv">Underlying positions in private companies have limited secondary markets. In extreme
+            conditions, settlement timelines may extend. Market conditions could make it difficult to exit a position at
+            the desired price.</div>
+        </div>
+        <div class="risk-card">
+          <div class="rk">Regulatory Risk</div>
+          <div class="rv">Several companies in the index operate in sectors with evolving regulation — AI, prediction
+            markets, neurotech. Adverse regulatory changes could materially impair one or more positions, affecting the
+            value of FEF15 Coin.</div>
+        </div>
+        <div class="risk-card">
+          <div class="rk">Concentration Risk</div>
+          <div class="rv">Despite holding 15 positions, the portfolio is concentrated in AI, technology, and digital
+            finance sectors. A broad sector-level event would likely affect multiple positions simultaneously rather
+            than in isolation.</div>
+        </div>
+        <div class="risk-card">
+          <div class="rk">Model Risk</div>
+          <div class="rv">The rebalancing model is a quantitative system. All quantitative models have failure modes:
+            data quality issues, unforeseen market regimes, and back-test bias. Model outputs are reviewed by humans but
+            are not guaranteed to be correct.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════
+     09 · LEGAL
+════════════════════════════ -->
+    <section id="legal">
+      <div class="eyebrow">10 — Legal &amp; Regulatory</div>
+      <h2 class="section-title">Structure. Compliance. <span class="dim">Disclosures.</span></h2>
+
+      <p>FEF15 Coin is structured as an independent digital asset. It is not a security, not a tokenized stock, and not
+        a share certificate. It does not represent ownership of any company or any legal claim against any company in
+        the index.</p>
+
+      <div class="two-col">
+        <div class="col">
+          <h4>What FEF15 Coin Is Not</h4>
+          <ul>
+            <li>Not a tokenized stock or share certificate</li>
+            <li>Not a bank deposit or insured product</li>
+            <li>Not a guaranteed return instrument</li>
+            <li>Not a security (unless classified as such by applicable law)</li>
+            <li>Not ownership of private company equity</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h4>User Rights</h4>
+          <ul>
+            <li>Right to information about the visible 12 assets</li>
+            <li>Right to performance reporting and NAV updates</li>
+            <li>Right to review methodology and rebalancing rules</li>
+            <li>Right to exit through the published process</li>
+            <li>Right to review risk disclosures and official documents</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:36px;">
+        <div class="label">Important Legal Notice</div>
+        <p>This whitepaper does not constitute an offer or solicitation to purchase any asset or security in any
+          jurisdiction. It is provided for informational purposes only. All hypothetical performance data represents
+          back-tested modelling, not actual trading results. Prospective users should review all official documents and
+          consult independent legal and financial advisors before participating. Capital is at risk. The issuer reserves
+          the right to amend this document at any time without prior notice.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════
+     10 · FAQ
+════════════════════════════ -->
+    <section id="faq">
+      <div class="eyebrow cyan">08 — Frequently Asked Questions</div>
+      <h2 class="section-title">Clear answers. <span class="dim">No jargon.</span></h2>
+
+      <div class="steps">
+        <div class="step" style="grid-template-columns:auto 1fr;">
+          <div class="step-num" style="font-size:16px;width:36px;height:36px;">Q</div>
+          <div>
+            <h4>Is FEF15 Coin a tokenized stock?</h4>
+            <p>No. FEF15 Coin is not a tokenized stock and does not represent ownership of company shares — private or
+              public. It is an independent digital asset with its own structure and market logic.</p>
+          </div>
+        </div>
+        <div class="step" style="grid-template-columns:auto 1fr;">
+          <div class="step-num" style="font-size:16px;width:36px;height:36px;">Q</div>
+          <div>
+            <h4>Does holding FEF15 Coin give me ownership of private companies?</h4>
+            <p>No. You do not receive legal ownership, voting rights, dividends, or shareholder rights in any company.
+              FEF15 Coin gives you market exposure — not equity.</p>
+          </div>
+        </div>
+        <div class="step" style="grid-template-columns:auto 1fr;">
+          <div class="step-num" style="font-size:16px;width:36px;height:36px;">Q</div>
+          <div>
+            <h4>What are the 3 hidden assets?</h4>
+            <p>The identities of the 3 hidden assets are permanently confidential. They are active positions in the
+              index, managed with the same standards as the visible 12, but their composition is never disclosed
+              publicly to protect the strategy.</p>
+          </div>
+        </div>
+        <div class="step" style="grid-template-columns:auto 1fr;">
+          <div class="step-num" style="font-size:16px;width:36px;height:36px;">Q</div>
+          <div>
+            <h4>Why are some assets hidden?</h4>
+            <p>Investment strategies lose their advantage when copied. The Hidden Alpha Layer makes FEF15 Coin's full
+              composition impossible to replicate exactly, creating a product with a protected, durable edge that cannot
+              be eroded by imitation.</p>
+          </div>
+        </div>
+        <div class="step" style="grid-template-columns:auto 1fr;">
+          <div class="step-num" style="font-size:16px;width:36px;height:36px;">Q</div>
+          <div>
+            <h4>How does FEF15 Coin reflect private company values?</h4>
+            <p>Private company exposure may be structured through index-linked methods, market models, synthetic
+              exposure, or other compliant structures. The exact exposure mechanism is defined in official documentation
+              and reviewed at each rebalance.</p>
+          </div>
+        </div>
+        <div class="step" style="grid-template-columns:auto 1fr;">
+          <div class="step-num" style="font-size:16px;width:36px;height:36px;">Q</div>
+          <div>
+            <h4>Can FEF15 Coin go down in value?</h4>
+            <p>Yes. FEF15 Coin is connected to real markets and can rise or fall significantly. Private-market
+              valuations can change, crypto markets can be highly volatile, and no outcome is guaranteed. Only
+              participate with money you can afford to lose.</p>
+          </div>
+        </div>
+        <div class="step" style="grid-template-columns:auto 1fr;">
+          <div class="step-num" style="font-size:16px;width:36px;height:36px;">Q</div>
+          <div>
+            <h4>How is FEF15 Coin different from buying crypto directly?</h4>
+            <p>Holding crypto directly gives you exposure only to digital asset markets. FEF15 Coin adds private-market
+              company exposure and a confidential strategic layer on top — creating a broader, more diversified product
+              than any single crypto asset.</p>
+          </div>
+        </div>
+        <div class="step" style="grid-template-columns:auto 1fr;">
+          <div class="step-num" style="font-size:16px;width:36px;height:36px;">Q</div>
+          <div>
+            <h4>How often does the product change?</h4>
+            <p>Weights are reviewed and adjusted weekly. Constituent companies may be added or removed quarterly based
+              on the model's assessment. The hidden assets are reviewed quarterly. The full methodology is reviewed
+              annually.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════
+     10 · ROADMAP
+════════════════════════════ -->
+    <section id="roadmap">
+      <div class="eyebrow gold">11 — Roadmap &amp; Milestones</div>
+      <h2 class="section-title">Where we are. <span class="dim">Where we are going.</span></h2>
+
+      <p>FEF15 Coin is built on a phased development roadmap. Each phase expands the product's capabilities, market
+        reach, and user experience. Milestones already completed are marked accordingly — future phases represent
+        planned development subject to market conditions and regulatory environment.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num" style="background:var(--emerald);box-shadow:0 0 16px rgba(142,224,198,0.4);">✓</div>
+          <div>
+            <h4>Phase 1 — Foundation <span
+                style="font-family:var(--mono);font-size:12px;color:var(--dim);font-weight:400;margin-left:10px;">2024</span>
+            </h4>
+            <p>Index design and methodology established. The 12 visible private stock constituents selected. Hidden
+              Alpha Layer structure defined and sealed. Initial weighting model built and back-tested. FEF15 Coin
+              concept validated.</p>
+            <span class="step-badge" style="background:rgba(142,224,198,0.12);color:var(--emerald);">Completed</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--emerald);box-shadow:0 0 16px rgba(142,224,198,0.4);">✓</div>
+          <div>
+            <h4>Phase 2 — Product Launch <span
+                style="font-family:var(--mono);font-size:12px;color:var(--dim);font-weight:400;margin-left:10px;">2025</span>
+            </h4>
+            <p>FEF15 Coin minted and deployed on-chain. Initial investment committee formed. Weekly rebalancing engine
+              activated. First NAV publication and on-chain justification hash verified. Whitepaper v1.0 released
+              publicly.</p>
+            <span class="step-badge" style="background:rgba(142,224,198,0.12);color:var(--emerald);">Completed</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--emerald);box-shadow:0 0 16px rgba(142,224,198,0.4);">✓</div>
+          <div>
+            <h4>Phase 3 — Market Expansion <span
+                style="font-family:var(--mono);font-size:12px;color:var(--dim);font-weight:400;margin-left:10px;">2026</span>
+            </h4>
+            <p>Whitepaper v2.0 published. Secondary market listings expanded. Enhanced performance reporting dashboard
+              launched for users. Quarterly constituent review cadence formalized. Institutional access framework
+              initiated.</p>
+            <span class="step-badge">In Progress</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--emerald);box-shadow:0 0 16px rgba(142,224,198,0.4);">✓</div>
+          <div>
+            <h4>Phase 4 — Institutional Integration <span
+                style="font-family:var(--mono);font-size:12px;color:var(--dim);font-weight:400;margin-left:10px;">2027</span>
+            </h4>
+            <p>Institutional-grade custody integration. API access for programmatic NAV tracking and reporting. Expanded
+              asset universe review — potential increase beyond 15 total positions. Third-party methodology audit
+              completed and published.</p>
+            <span class="step-badge" style="background:rgba(255,255,255,0.04);color:var(--dim);">Planned</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--emerald);box-shadow:0 0 16px rgba(142,224,198,0.4);">✓</div>
+          <div>
+            <h4>Phase 5 — Protocol Maturity <span
+                style="font-family:var(--mono);font-size:12px;color:var(--dim);font-weight:400;margin-left:10px;">2028+</span>
+            </h4>
+            <p>FEF15 Protocol extended to support additional index products built on the same architecture. Governance
+              model refined with on-chain voting framework. Hidden Alpha Layer policy reviewed at five-year mark. Full
+              ecosystem of private-market digital assets operational.</p>
+            <span class="step-badge" style="background:rgba(255,255,255,0.04);color:var(--dim);">Future</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="metric-row" style="margin-top:48px;">
+        <div class="metric">
+          <div class="mk">Current Phase</div>
+          <div class="mv cyan">3 of 5</div>
+          <div class="ms">Market expansion active</div>
+        </div>
+        <div class="metric">
+          <div class="mk">Phases Complete</div>
+          <div class="mv up">2</div>
+          <div class="ms">Foundation &amp; launch done</div>
+        </div>
+        <div class="metric">
+          <div class="mk">Protocol Maturity</div>
+          <div class="mv" style="color:var(--muted);font-size:22px;">2028+</div>
+          <div class="ms">Full ecosystem target</div>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:8px;">
+        <div class="label">Forward-looking notice</div>
+        <p>All future phases represent intended development plans and are subject to change based on market conditions,
+          regulatory developments, and technology availability. Nothing in this roadmap constitutes a commitment,
+          guarantee, or contractual obligation. Dates are targets, not deadlines.</p>
+      </div>
+    </section>
+
+  </div><!-- .page -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-brand">
+      <img src="img/fef15_logo_mark_white_gold_transparent.svg"
+        style="width:34px;height:34px;display:block;flex-shrink:0;object-fit:contain;" alt="FEF15">
+      <span>FEF15 Coin <span class="ver">· FEF15 Coin Whitepaper v2.0</span></span>
+    </div>
+    <div class="foot-tagline">
+      <div class="ft-item">
+        <span class="ft-val" style="color:var(--cyan);">12</span>
+        <span class="ft-lbl">Private stock exposures</span>
+      </div>
+      <div class="ft-item">
+        <span class="ft-val" style="color:var(--purple);">3</span>
+        <span class="ft-lbl">Hidden assets</span>
+      </div>
+      <div class="ft-item">
+        <span class="ft-val" style="color:var(--blue);">60/25/15</span>
+        <span class="ft-lbl">Allocation model</span>
+      </div>
+      <div class="ft-item">
+        <span class="ft-val" style="color:var(--gold);">1</span>
+        <span class="ft-lbl">Digital asset</span>
+      </div>
+      <div class="ft-item">
+        <span class="ft-val">∞</span>
+        <span class="ft-lbl">Market participation</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:32px;">
+      <a href="index.html" style="font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;"
+        onmouseover="this.style.color='#fff'" onmouseout="this.style.color=''">← Back to Homepage</a>
+      <a href="#cover" style="font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;"
+        onmouseover="this.style.color='#fff'" onmouseout="this.style.color=''">↑ Back to Top</a>
+    </div>
+    <div class="foot-legal">
+      © 2024–2026 FEF15 PROTOCOL. ALL RIGHTS RESERVED. THIS DOCUMENT IS FOR INFORMATIONAL PURPOSES ONLY AND DOES NOT
+      CONSTITUTE INVESTMENT ADVICE, AN OFFER TO SELL, OR A SOLICITATION TO BUY ANY ASSET OR SECURITY IN ANY
+      JURISDICTION.
+      FEF15 COIN IS NOT A TOKENIZED STOCK. IT DOES NOT REPRESENT OWNERSHIP OF COMPANY SHARES, VOTING RIGHTS, DIVIDENDS,
+      OR SHAREHOLDER RIGHTS IN ANY PRIVATE OR PUBLIC COMPANY.
+      ALL HYPOTHETICAL PERFORMANCE DATA IS MODELLED ON CURRENT CONSTITUENTS USING HISTORICALLY AVAILABLE DATA ONLY AND
+      DOES NOT REFLECT ACTUAL TRADING RESULTS.
+      PAST PERFORMANCE IS NOT INDICATIVE OF FUTURE RESULTS. THE VALUE OF FEF15 COIN MAY RISE OR FALL. CAPITAL IS AT
+      RISK.
+      PRIVATE-MARKET EXPOSURE AND CRYPTO ASSETS CAN BE HIGHLY VOLATILE AND DIFFICULT TO VALUE.
+      USERS SHOULD REVIEW ALL OFFICIAL DOCUMENTS AND CONSULT INDEPENDENT ADVISORS BEFORE PARTICIPATING.
+    </div>
+  </footer>
+
+  <script>
+    // Active section tracking for sidenav
+    const navLinks = document.querySelectorAll('.sidenav a');
+    const sections = [];
+    navLinks.forEach(a => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) sections.push({ id, el, a });
+    });
+    function onScroll() {
+      const y = window.scrollY + window.innerHeight * 0.35;
+      let active = sections[0];
+      for (const s of sections) {
+        if (s.el.offsetTop <= y) active = s;
+      }
+      navLinks.forEach(a => a.classList.remove('active'));
+      if (active) active.a.classList.add('active');
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  </script>
+</body>
+
+</html>
