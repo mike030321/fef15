@@ -3182,10 +3182,10 @@
           </div>
           <div class="why-card span-5">
             <div class="label">Not a Tokenized Stock</div>
-            <h3>No ownership. No shareholder rights.</h3>
-            <p>FEF15 Coin does not give holders ownership of private or public company shares, voting rights, dividends,
-              or shareholder status. It is an independent digital asset designed for combined market exposure — not
-              direct equity ownership.</p>
+            <h3>Every coin. Directly tied to the basket.</h3>
+            <p>Each FEF15 Coin is directly linked 1:1 to the full underlying basket. No dilution, no detachment — your
+              coin moves with
+              the combined performance of every asset inside it, proportionally and transparently.</p>
           </div>
           <div class="why-card span-4">
             <div class="label">12 Private Stock Exposures</div>
@@ -3662,7 +3662,7 @@
 
       </div>
       <div class="legal">
-        <span>© 2024–2026 FEF15 Protocol. All rights reserved.</span>
+        <span>© 2026 FEF15 Protocol. All rights reserved.</span>
         <span>FEF15 Coin is a fully on-chain digital asset — real, verifiable, and settled on the blockchain. Each token
           represents structured exposure to a curated basket of private-market positions and digital assets. All
           holdings are tracked transparently on-chain. FEF15 is open to anyone, anywhere, with no minimums and no
@@ -4774,18 +4774,18 @@
     // Secondary market estimated valuations — seeded daily variation from latest funding rounds
 
     const STOCKS_DATA = [
-      { name: 'OpenAI',     ticker: 'OPAI.PVT', coinSym: 'OPAI', mark: 'O', mc1: '#0d7a5f', alloc: '14.2%', price: '—', delta: '—', up: true, sector: 'AI Lab',       domain: 'openai.com',     logo: 'https://logo.clearbit.com/openai.com' },
-      { name: 'Anthropic',  ticker: 'ANTH.PVT', coinSym: 'ANTH', mark: 'A', mc1: '#8b6914', alloc: '12.8%', price: '—', delta: '—', up: true, sector: 'AI Safety',    domain: 'anthropic.com',  logo: 'https://logo.clearbit.com/anthropic.com' },
-      { name: 'SpaceX',     ticker: 'SPCX',     coinSym: 'SPAX', mark: 'S', mc1: '#1a3a5c', alloc: '11.4%', price: '—', delta: '—', up: true, sector: 'Nasdaq: SPCX', domain: 'spacex.com',     logo: 'https://logo.clearbit.com/spacex.com' },
-      { name: 'Kalshi',     ticker: 'KLSH.PVT', coinSym: 'KLSH', mark: 'K', mc1: '#3d3d8f', alloc: '9.6%',  price: '—', delta: '—', up: true, sector: 'Pred. Market', domain: 'kalshi.com',     logo: 'https://logo.clearbit.com/kalshi.com' },
-      { name: 'Polymarket', ticker: 'POLA.PVT', coinSym: 'POLA', mark: 'P', mc1: '#0c4a6e', alloc: '8.8%',  price: '—', delta: '—', up: true, sector: 'Pred. Market', domain: 'polymarket.com', logo: 'https://logo.clearbit.com/polymarket.com' },
-      { name: 'Neuralink',  ticker: 'NEUR.PVT', coinSym: 'NEUR', mark: 'N', mc1: '#3b0764', alloc: '8.2%',  price: '—', delta: '—', up: true, sector: 'Neurotech',    domain: 'neuralink.com',  logo: 'https://logo.clearbit.com/neuralink.com' },
-      { name: 'Skild AI',   ticker: 'SKIA.PVT', coinSym: 'SKIA', mark: 'S', mc1: '#78350f', alloc: '7.4%',  price: '—', delta: '—', up: true, sector: 'Robotics AI',  domain: 'skild.ai',       logo: 'https://logo.clearbit.com/skild.ai' },
-      { name: 'Stripe',     ticker: 'STRI.PVT', coinSym: 'STRP', mark: 'S', mc1: '#4a54b2', alloc: '6.8%',  price: '—', delta: '—', up: true, sector: 'Fintech',       domain: 'stripe.com',     logo: 'https://logo.clearbit.com/stripe.com' },
-      { name: 'xAI',        ticker: 'XAI.PVT',  coinSym: 'XAI',  mark: 'X', mc1: '#8b3a20', alloc: '5.6%',  price: '—', delta: '—', up: true, sector: 'AI Lab',       domain: 'x.ai',           logo: 'https://logo.clearbit.com/x.ai' },
-      { name: 'Waymo',      ticker: 'WAYM.PVT', coinSym: 'WAYM', mark: 'W', mc1: '#1a3a6e', alloc: '4.8%',  price: '—', delta: '—', up: true, sector: 'Autonomous',   domain: 'waymo.com',      logo: 'https://logo.clearbit.com/waymo.com' },
-      { name: 'Databricks', ticker: 'DATB.PVT', coinSym: 'DBRK', mark: 'D', mc1: '#8b1a0e', alloc: '4.2%',  price: '—', delta: '—', up: true, sector: 'Data AI',      domain: 'databricks.com', logo: 'https://logo.clearbit.com/databricks.com' },
-      { name: 'Perplexity', ticker: 'PEAI.PVT', coinSym: 'PRPL', mark: 'P', mc1: '#0e6b6b', alloc: '3.8%',  price: '—', delta: '—', up: true, sector: 'AI Search',    domain: 'perplexity.ai',  logo: 'https://logo.clearbit.com/perplexity.ai' },
+      { name: 'OpenAI', ticker: 'OPAI.PVT', coinSym: 'OPAI', mark: 'O', mc1: '#0d7a5f', alloc: '14.2%', price: '—', delta: '—', up: true, sector: 'AI Lab', domain: 'openai.com', logo: 'https://logo.clearbit.com/openai.com' },
+      { name: 'Anthropic', ticker: 'ANTH.PVT', coinSym: 'ANTH', mark: 'A', mc1: '#8b6914', alloc: '12.8%', price: '—', delta: '—', up: true, sector: 'AI Safety', domain: 'anthropic.com', logo: 'https://logo.clearbit.com/anthropic.com' },
+      { name: 'SpaceX', ticker: 'SPCX', coinSym: 'SPAX', mark: 'S', mc1: '#1a3a5c', alloc: '11.4%', price: '—', delta: '—', up: true, sector: 'Nasdaq: SPCX', domain: 'spacex.com', logo: 'https://logo.clearbit.com/spacex.com' },
+      { name: 'Kalshi', ticker: 'KLSH.PVT', coinSym: 'KLSH', mark: 'K', mc1: '#3d3d8f', alloc: '9.6%', price: '—', delta: '—', up: true, sector: 'Pred. Market', domain: 'kalshi.com', logo: 'https://logo.clearbit.com/kalshi.com' },
+      { name: 'Polymarket', ticker: 'POLA.PVT', coinSym: 'POLA', mark: 'P', mc1: '#0c4a6e', alloc: '8.8%', price: '—', delta: '—', up: true, sector: 'Pred. Market', domain: 'polymarket.com', logo: 'https://logo.clearbit.com/polymarket.com' },
+      { name: 'Neuralink', ticker: 'NEUR.PVT', coinSym: 'NEUR', mark: 'N', mc1: '#3b0764', alloc: '8.2%', price: '—', delta: '—', up: true, sector: 'Neurotech', domain: 'neuralink.com', logo: 'https://logo.clearbit.com/neuralink.com' },
+      { name: 'Skild AI', ticker: 'SKIA.PVT', coinSym: 'SKIA', mark: 'S', mc1: '#78350f', alloc: '7.4%', price: '—', delta: '—', up: true, sector: 'Robotics AI', domain: 'skild.ai', logo: 'https://logo.clearbit.com/skild.ai' },
+      { name: 'Stripe', ticker: 'STRI.PVT', coinSym: 'STRP', mark: 'S', mc1: '#4a54b2', alloc: '6.8%', price: '—', delta: '—', up: true, sector: 'Fintech', domain: 'stripe.com', logo: 'https://logo.clearbit.com/stripe.com' },
+      { name: 'xAI', ticker: 'XAI.PVT', coinSym: 'XAI', mark: 'X', mc1: '#8b3a20', alloc: '5.6%', price: '—', delta: '—', up: true, sector: 'AI Lab', domain: 'x.ai', logo: 'https://logo.clearbit.com/x.ai' },
+      { name: 'Waymo', ticker: 'WAYM.PVT', coinSym: 'WAYM', mark: 'W', mc1: '#1a3a6e', alloc: '4.8%', price: '—', delta: '—', up: true, sector: 'Autonomous', domain: 'waymo.com', logo: 'https://logo.clearbit.com/waymo.com' },
+      { name: 'Databricks', ticker: 'DATB.PVT', coinSym: 'DBRK', mark: 'D', mc1: '#8b1a0e', alloc: '4.2%', price: '—', delta: '—', up: true, sector: 'Data AI', domain: 'databricks.com', logo: 'https://logo.clearbit.com/databricks.com' },
+      { name: 'Perplexity', ticker: 'PEAI.PVT', coinSym: 'PRPL', mark: 'P', mc1: '#0e6b6b', alloc: '3.8%', price: '—', delta: '—', up: true, sector: 'AI Search', domain: 'perplexity.ai', logo: 'https://logo.clearbit.com/perplexity.ai' },
       { name: null, ticker: 'α-01', classified: true, alloc: '9.2%' },
       { name: null, ticker: 'α-02', classified: true, alloc: '9.4%' },
       { name: null, ticker: 'α-03', classified: true, alloc: '9.0%' },
@@ -4898,18 +4898,18 @@
     // Fallback valuations — used only when backend is offline
     // Prices sourced from Yahoo Finance Forge data via backend, Jun 17 2026
     const PRIVATE_VALUATIONS = {
-      'OPAI': { base: 733.54, wk52:   120.93 },
-      'ANTH': { base: 589.01, wk52:   950.12 },
-      'SPAX': { base: 191.82, wk52:    42.09, ipoBase: 135 },
-      'KLSH': { base: 653.25, wk52:  1878.95 },
-      'POLA': { base: 135.91, wk52:  1508.40 },
-      'NEUR': { base:  75.62, wk52:    28.43 },
-      'SKIA': { base:  65.35, wk52:   161.19 },
-      'STRP': { base:  72.01, wk52:   100.31 },
-      'XAI':  { base:  31.18, wk52:    54.7  },
-      'WAYM': { base:  27.84, wk52:    21.3  },
-      'DBRK': { base: 242.04, wk52:   114.67 },
-      'PRPL': { base:  65.00, wk52:    18.83 },
+      'OPAI': { base: 733.54, wk52: 120.93 },
+      'ANTH': { base: 589.01, wk52: 950.12 },
+      'SPAX': { base: 191.82, wk52: 42.09, ipoBase: 135 },
+      'KLSH': { base: 653.25, wk52: 1878.95 },
+      'POLA': { base: 135.91, wk52: 1508.40 },
+      'NEUR': { base: 75.62, wk52: 28.43 },
+      'SKIA': { base: 65.35, wk52: 161.19 },
+      'STRP': { base: 72.01, wk52: 100.31 },
+      'XAI': { base: 31.18, wk52: 54.7 },
+      'WAYM': { base: 27.84, wk52: 21.3 },
+      'DBRK': { base: 242.04, wk52: 114.67 },
+      'PRPL': { base: 65.00, wk52: 18.83 },
     };
 
     // localStorage cache — keyed by date string, refreshes automatically each new day
@@ -4918,13 +4918,13 @@
       try {
         const c = JSON.parse(localStorage.getItem(CACHE_KEY));
         if (c && c.date === new Date().toDateString()) return c.data;
-      } catch (_) {}
+      } catch (_) { }
       return null;
     }
     function saveCache(data) {
       try {
         localStorage.setItem(CACHE_KEY, JSON.stringify({ date: new Date().toDateString(), data }));
-      } catch (_) {}
+      } catch (_) { }
     }
 
     // API is served on the same domain via nginx — no port or origin needed
